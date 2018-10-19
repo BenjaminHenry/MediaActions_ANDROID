@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	xmlns:app="http://schemas.android.com/apk/res-auto"
+	xmlns:tools="http://schemas.android.com/tools"
+	android:layout_width="match_parent"
+	android:layout_height="match_parent"
+	tools:context=".ui.ProfileActivity">
+
+	<ImageView
+		android:id="@+id/mediaActionLogo"
+		android:layout_width="120dp"
+		android:layout_height="120dp"
+		android:layout_marginTop="20dp"
+		app:layout_constraintLeft_toLeftOf="parent"
+		app:layout_constraintRight_toRightOf="parent"
+		app:layout_constraintTop_toTopOf="parent"
+		app:srcCompat="@drawable/ic_mediaactions_logo" />
+
+	<TextView
+		android:id="@+id/profileName"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:layout_marginTop="20dp"
+		android:textColor="@android:color/black"
+		android:textSize="20sp"
+		app:layout_constraintEnd_toEndOf="parent"
+		app:layout_constraintStart_toStartOf="parent"
+		app:layout_constraintTop_toBottomOf="@id/mediaActionLogo"
+		tools:text="Nom de l'utilisateur" />
+
+	<TextView
+		android:id="@+id/salesCount"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:layout_marginTop="5dp"
+		android:textColor="@android:color/black"
+		android:textSize="16sp"
+		app:layout_constraintEnd_toEndOf="parent"
+		app:layout_constraintStart_toStartOf="parent"
+		app:layout_constraintTop_toBottomOf="@id/profileName"
+		tools:text="sold photos : 2" />
+
+	<TextView
+		android:id="@+id/averagePrice"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:layout_marginTop="5dp"
+		android:textColor="@android:color/black"
+		android:textSize="16sp"
+		app:layout_constraintEnd_toEndOf="parent"
+		app:layout_constraintStart_toStartOf="parent"
+		app:layout_constraintTop_toBottomOf="@id/salesCount"
+		tools:text="average price : 25 €" />
+
+	<Button
+		android:id="@+id/myUploadButton"
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:layout_marginEnd="40dp"
+		android:layout_marginStart="40dp"
+		android:layout_marginTop="70dp"
+		android:background="@drawable/round_button_primary_color"
+		android:text="My uploads"
+		android:textColor="@android:color/white"
+		app:layout_constraintTop_toBottomOf="@id/profileName" />
+
+	<Button
+		android:id="@+id/mySoldPhotos"
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:layout_marginEnd="40dp"
+		android:layout_marginStart="40dp"
+		android:layout_marginTop="20dp"
+		android:background="@drawable/round_button_primary_color"
+		android:text="My sold photos"
+		android:textColor="@android:color/white"
+		app:layout_constraintTop_toBottomOf="@id/myUploadButton" />
+
+	<Button
+		android:id="@+id/uploadPhotoButton"
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:layout_marginEnd="40dp"
+		android:layout_marginStart="40dp"
+		android:layout_marginTop="50dp"
+		android:background="@drawable/round_button_primary_color"
+		android:onClick="uploadPhotoClick"
+		android:text="Upload a photo"
+		android:textColor="@android:color/white"
+		app:layout_constraintTop_toBottomOf="@id/mySoldPhotos" />
+
+
+</android.support.constraint.ConstraintLayout>

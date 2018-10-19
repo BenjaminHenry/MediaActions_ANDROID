@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	xmlns:app="http://schemas.android.com/apk/res-auto"
+	xmlns:tools="http://schemas.android.com/tools"
+	android:layout_width="match_parent"
+	android:layout_height="match_parent"
+	tools:context=".ui.ConnectionActivity">
+
+	<ImageView
+		android:id="@+id/mediaActionLogo"
+		android:layout_width="120dp"
+		android:layout_height="120dp"
+		android:layout_marginTop="20dp"
+		app:layout_constraintLeft_toLeftOf="parent"
+		app:layout_constraintRight_toRightOf="parent"
+		app:layout_constraintTop_toTopOf="parent"
+		app:srcCompat="@drawable/ic_mediaactions_logo"
+		tools:ignore="ContentDescription" />
+
+	<android.support.design.widget.TextInputLayout
+		android:id="@+id/loginLayout"
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:layout_marginEnd="50dp"
+		android:layout_marginStart="50dp"
+		android:layout_marginTop="20dp"
+		app:layout_constraintEnd_toEndOf="parent"
+		app:layout_constraintStart_toStartOf="parent"
+		app:layout_constraintTop_toBottomOf="@id/mediaActionLogo">
+
+		<EditText
+			android:id="@+id/editTextEmail"
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:ems="10"
+			android:hint="User"
+			android:inputType="textPersonName"
+			android:paddingBottom="@dimen/general_inputPadding"
+			android:textColor="@android:color/black"
+			tools:ignore="TextFields" />
+
+	</android.support.design.widget.TextInputLayout>
+
+	<android.support.design.widget.TextInputLayout
+		android:id="@+id/passwordLayout"
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:layout_marginEnd="50dp"
+		android:layout_marginStart="50dp"
+		android:layout_marginTop="10dp"
+		app:layout_constraintEnd_toEndOf="parent"
+		app:layout_constraintStart_toStartOf="parent"
+		app:layout_constraintTop_toBottomOf="@id/loginLayout">
+
+		<EditText
+			android:id="@+id/editTextPassword"
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:ems="10"
+			android:hint="Password"
+			android:inputType="textPassword"
+			android:paddingBottom="@dimen/general_inputPadding"
+			android:textColor="@android:color/black" />
+
+	</android.support.design.widget.TextInputLayout>
+
+	<Button
+		android:id="@+id/loginButton"
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:layout_marginEnd="50dp"
+		android:layout_marginStart="50dp"
+		android:layout_marginTop="10dp"
+		android:background="@drawable/round_button_primary_color"
+		android:text="@string/loginBtn"
+		android:textColor="@android:color/white"
+		app:layout_constraintLeft_toLeftOf="parent"
+		app:layout_constraintRight_toRightOf="parent"
+		app:layout_constraintTop_toBottomOf="@id/passwordLayout" />
+
+	<TextView
+		android:id="@+id/forgetPasswordClickText"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:layout_marginTop="15dp"
+		android:text="@string/forget_password_text"
+		android:textColor="@color/colorPrimary"
+		app:layout_constraintEnd_toEndOf="parent"
+		app:layout_constraintStart_toStartOf="parent"
+		app:layout_constraintTop_toBottomOf="@id/loginButton" />
+
+	<TextView
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:layout_marginBottom="5dp"
+		android:text="Not registered yet ?"
+		android:textColor="@android:color/black"
+		app:layout_constraintBottom_toTopOf="@id/registerButton"
+		app:layout_constraintEnd_toEndOf="parent"
+		app:layout_constraintStart_toStartOf="parent" />
+
+	<Button
+		android:id="@+id/registerButton"
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:layout_marginEnd="50dp"
+		android:layout_marginStart="50dp"
+		android:layout_marginTop="100dp"
+		android:background="@drawable/round_button_primary_color"
+		android:text="@string/registerBtnText"
+		android:textColor="@android:color/white"
+		app:layout_constraintLeft_toLeftOf="parent"
+		app:layout_constraintRight_toRightOf="parent"
+		app:layout_constraintTop_toBottomOf="@+id/loginButton" />
+
+</android.support.constraint.ConstraintLayout>

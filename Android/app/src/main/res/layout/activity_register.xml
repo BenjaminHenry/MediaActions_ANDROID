@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	xmlns:app="http://schemas.android.com/apk/res-auto"
+	xmlns:tools="http://schemas.android.com/tools"
+	android:layout_width="match_parent"
+	android:layout_height="match_parent"
+	tools:context=".ui.RegisterActivity">
+
+	<EditText
+		android:id="@+id/userInput"
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:layout_marginEnd="35dp"
+		android:layout_marginStart="35dp"
+		android:layout_marginTop="30dp"
+		android:ems="10"
+		android:hint="@string/username"
+		android:inputType="textPersonName"
+		app:layout_constraintEnd_toEndOf="parent"
+		app:layout_constraintStart_toStartOf="parent"
+		app:layout_constraintTop_toTopOf="parent" />
+
+	<EditText
+		android:id="@+id/mailInput"
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:layout_marginEnd="35dp"
+		android:layout_marginStart="35dp"
+		android:layout_marginTop="20dp"
+		android:ems="10"
+		android:hint="@string/mail"
+		android:inputType="textPersonName"
+		app:layout_constraintEnd_toEndOf="parent"
+		app:layout_constraintStart_toStartOf="parent"
+		app:layout_constraintTop_toBottomOf="@id/userInput" />
+
+	<EditText
+		android:id="@+id/pwdInput"
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:layout_marginEnd="35dp"
+		android:layout_marginStart="35dp"
+		android:layout_marginTop="20dp"
+		android:ems="10"
+		android:hint="@string/password"
+		android:inputType="textPassword"
+		app:layout_constraintEnd_toEndOf="parent"
+		app:layout_constraintStart_toStartOf="parent"
+		app:layout_constraintTop_toBottomOf="@id/mailInput" />
+
+	<EditText
+		android:id="@+id/pwdConfInput"
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:layout_marginEnd="35dp"
+		android:layout_marginStart="35dp"
+		android:layout_marginTop="20dp"
+		android:ems="10"
+		android:hint="@string/confirm_password"
+		android:inputType="textPassword"
+		app:layout_constraintLeft_toLeftOf="parent"
+		app:layout_constraintStart_toStartOf="parent"
+		app:layout_constraintTop_toBottomOf="@id/pwdInput" />
+
+	<Button
+		android:id="@+id/registrationButtton"
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:layout_marginEnd="35dp"
+		android:layout_marginStart="35dp"
+		android:layout_marginTop="35dp"
+		android:background="@drawable/round_button_primary_color"
+		android:text="@string/register"
+		android:textColor="@android:color/white"
+		app:layout_constraintLeft_toLeftOf="parent"
+		app:layout_constraintStart_toStartOf="parent"
+		app:layout_constraintTop_toBottomOf="@+id/pwdConfInput" />
+
+	<TextView
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:layout_marginEnd="35dp"
+		android:layout_marginStart="35dp"
+		android:layout_marginTop="20dp"
+		android:text="Your password must be 8 characters long and must contains at least 1 letter and 1 number"
+		app:layout_constraintEnd_toEndOf="parent"
+		app:layout_constraintStart_toStartOf="parent"
+		app:layout_constraintTop_toBottomOf="@id/registrationButtton" />
+
+</android.support.constraint.ConstraintLayout>
