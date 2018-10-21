@@ -44,47 +44,16 @@
 				app:layout_constraintTop_toBottomOf="@id/selectedImage" />
 
 			<EditText
-				android:id="@+id/addTagText"
-				android:layout_width="wrap_content"
-				android:layout_height="wrap_content"
-				android:layout_marginTop="20dp"
-				android:ems="10"
-				android:inputType="textPersonName"
-				app:layout_constraintEnd_toStartOf="@id/addTagButton"
-				app:layout_constraintStart_toStartOf="parent"
-				app:layout_constraintTop_toBottomOf="@id/uploadButton" />
-
-			<Button
-				android:id="@+id/addTagButton"
-				android:layout_width="wrap_content"
-				android:layout_height="wrap_content"
-				android:layout_marginTop="20dp"
-				android:background="@drawable/white_bordered_round_button"
-				android:onClick="addTag"
-				android:text="@string/add_tag"
-				android:textColor="@color/colorPrimary"
-				app:layout_constraintEnd_toEndOf="parent"
-				app:layout_constraintStart_toEndOf="@+id/addTagText"
-				app:layout_constraintTop_toBottomOf="@id/uploadButton" />
-
-			<co.lujun.androidtagview.TagContainerLayout
-				android:id="@+id/tagList"
+				android:id="@+id/addTitleText"
 				android:layout_width="match_parent"
 				android:layout_height="wrap_content"
 				android:layout_marginTop="20dp"
-				android:padding="10dp"
-				app:container_background_color="#00000000"
-				app:container_border_color="#00000000"
-				app:container_enable_drag="false"
-				app:horizontal_interval="10dp"
+				android:hint="Add a title"
+				android:layout_marginHorizontal="50dp"
+				android:ems="10"
+				app:layout_constraintStart_toStartOf="parent"
 				app:layout_constraintEnd_toEndOf="parent"
-				app:layout_constraintStart_toEndOf="parent"
-				app:layout_constraintTop_toBottomOf="@id/addTagButton"
-				app:tag_background_color="#c9020c"
-				app:tag_clickable="true"
-				app:tag_text_color="#000000"
-				app:tag_theme="none"
-				app:vertical_interval="10dp" />
+				app:layout_constraintTop_toBottomOf="@id/uploadButton" />
 
 			<TextView
 				android:id="@+id/priceText"
@@ -96,7 +65,7 @@
 				android:textSize="25sp"
 				app:layout_constraintEnd_toEndOf="parent"
 				app:layout_constraintStart_toStartOf="parent"
-				app:layout_constraintTop_toBottomOf="@+id/tagList" />
+				app:layout_constraintTop_toBottomOf="@+id/addTitleText" />
 
 			<EditText
 				android:id="@+id/editPrice"
@@ -108,7 +77,7 @@
 				android:ems="10"
 				android:inputType="numberSigned"
 				app:layout_constraintStart_toEndOf="@id/priceText"
-				app:layout_constraintTop_toBottomOf="@id/tagList" />
+				app:layout_constraintTop_toBottomOf="@id/addTitleText" />
 
 			<TextView
 				android:id="@+id/alertText"

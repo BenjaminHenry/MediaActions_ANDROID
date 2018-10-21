@@ -13,6 +13,7 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
+import mediaaction.android.BuildConfig;
 import mediaaction.android.R;
 import mediaaction.android.logic.Account.AccountManager;
 import mediaaction.android.logic.RxUtils;
@@ -31,6 +32,11 @@ public class ConnectionActivity extends AppCompatActivity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_connection);
 		ButterKnife.bind(this);
+
+		if (BuildConfig.DEBUG) {
+			username.setText("test1");
+			userPassword.setText("1aaaaaaa");
+		}
 	}
 
 	@OnClick(R.id.loginButton)
@@ -43,7 +49,7 @@ public class ConnectionActivity extends AppCompatActivity {
 					.compose(RxUtils.displayCommonRestErrorDialogSingle(this))
 					.subscribe(userData ->
 									startActivity(new Intent(this, ProfileActivity.class)
-									.putExtra(ProfileActivity.EXTRA_USER_DATA, userData))
+											.putExtra(ProfileActivity.EXTRA_USER_DATA, userData))
 							, error ->
 									Log.e("Error", "")
 					);

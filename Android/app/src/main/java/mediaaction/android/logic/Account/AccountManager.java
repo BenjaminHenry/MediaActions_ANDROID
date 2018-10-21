@@ -22,8 +22,8 @@ public class AccountManager {
 //				.compose(SessionUtils.saveSession(context, new SessionManager(context), username, password));
 	}
 
-	public Single<UserDTO> register(String mail, String username, String password, String passwordConf) {
-		return restManager.register(mail, username, password, passwordConf);
+	public Single<UserDTO> register(String mail, String username, String password) {
+		return restManager.register(mail, username, password);
 		//				.compose(SessionUtils.saveSession(context, new SessionManager(context), username, password));
 	}
 }

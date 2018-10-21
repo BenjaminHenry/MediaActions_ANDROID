@@ -37,7 +37,7 @@ dependencies {
     implementation "com.google.android.gms:play-services-location:15.0.1"
 
     // RxJava
-    implementation 'io.reactivex.rxjava2:rxjava:2.1.14'
+    implementation 'io.reactivex.rxjava2:rxjava:2.2.2'
     implementation 'com.trello.rxlifecycle2:rxlifecycle-components:2.2.0'
     implementation 'com.jakewharton.rxbinding2:rxbinding:2.1.1'
 
