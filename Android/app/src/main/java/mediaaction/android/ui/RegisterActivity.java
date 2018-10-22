@@ -73,7 +73,12 @@ public class RegisterActivity extends AppCompatActivity {
 			return;
 		}
 
-		accountManager.register(mail, userName, pwd, pwdConf)
+		if (!pwd.equals(pwdConf)) {
+			Toast.makeText(this, "Password don't correspond", Toast.LENGTH_LONG).show();
+			return;
+		}
+
+		accountManager.register(mail, userName, pwd)
 				.observeOn(AndroidSchedulers.mainThread())
 				.subscribeOn(Schedulers.newThread())
 				.compose(RxUtils.displayCommonRestErrorDialogSingle(this))
