@@ -18,4 +18,13 @@
 	<string name="price_text">price :</string>
 	<string name="post_text">Post</string>
 	<string name="emptyFieldError">Please fill all the fields</string>
+
+
+	<!-- PICTURE PICKER -->
+	<string name="picture_pick_from_gallery">Pick from gallery</string>
+	<string name="picture_take_with_camera">Take a photo</string>
+	<string name="picture_error_accept_permissions_title">Erreur</string>
+	<string name="picture_error_accept_permissions_description">Vous devez autoriser l\'accès à la mémoire externe pour cette opération</string>
+	<string name="pick_image_intent_text">pick_image_intent_text</string>
+	<!-- PICTURE PICKER -->
 </resources>

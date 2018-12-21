@@ -2,6 +2,7 @@ package mediaaction.android.ui;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -15,17 +16,20 @@ import butterknife.OnClick;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
 import mediaaction.android.R;
+import mediaaction.android.core.SessionManager;
 import mediaaction.android.core.UserDTO;
 import mediaaction.android.logic.RxUtils;
 import mediaaction.android.logic.User.UserManager;
+import mediaaction.android.utils.IntentUtils;
 
 public class ProfileActivity extends AppCompatActivity {
 
 	public static final String EXTRA_USER_DATA = "ProfileActivity.EXTRA_USER_DATA";
 
-	private static Intent prepare(Context context, UserDTO userData) {
+	public static Intent prepare(Context context, UserDTO userData) {
 		return new Intent(context, ProfileActivity.class)
-				.putExtra(EXTRA_USER_DATA, userData);
+				.putExtra(EXTRA_USER_DATA, userData)
+				.addFlags(IntentUtils.FLAGS_CLEAN);
 	}
 
 	private static UserDTO extractUserData(Intent intent) {
@@ -39,7 +43,7 @@ public class ProfileActivity extends AppCompatActivity {
 	@BindView(R.id.averagePrice)
 	TextView averagePrice;
 
-	//private SessionManager sessionManager = new SessionManager(this);
+	private SessionManager sessionManager;
 	private UserManager userManager = new UserManager();
 
 	@SuppressLint({"SetTextI18n", "CheckResult"})
@@ -49,9 +53,10 @@ public class ProfileActivity extends AppCompatActivity {
 		setContentView(R.layout.activity_profile);
 		ButterKnife.bind(this);
 
+		sessionManager = new SessionManager(this);
 
-		averagePrice.setText("average prices : 0");
-		salesCount.setText("sold photo : 0");
+		salesCount.setText("sold photos : 0");
+		averagePrice.setText("average price : 0");
 
 		UserDTO userData = extractUserData(getIntent());
 
@@ -61,7 +66,7 @@ public class ProfileActivity extends AppCompatActivity {
 				.subscribeOn(Schedulers.newThread())
 				.compose(RxUtils.displayCommonRestErrorDialogSingle(this))
 				.subscribe(x ->
-								averagePrice.setText("average prices : " + x.avg)
+								averagePrice.setText("average price : " + x.avg)
 						, error ->
 								Log.e("Error", "")
 				);
@@ -88,6 +93,7 @@ public class ProfileActivity extends AppCompatActivity {
 	@OnClick(R.id.uploadPhotoButton)
 	public void uploadPhotoClick(View view) {
 		Intent intent = new Intent(this, UploadActivity.class);
+		intent.putExtra(UploadActivity.EXTRA_USER_ID, extractUserData(getIntent()).id);
 		startActivity(intent);
 	}
 
@@ -97,5 +103,19 @@ public class ProfileActivity extends AppCompatActivity {
 		intent.putExtra(PhotoListActivity.EXTRA_PHOTO_LIST_TYPE, PhotoListActivity.EXTRA_TYPE_SOLD_PHOTO);
 		intent.putExtra(PhotoListActivity.EXTRA_USER_ID, extractUserData(getIntent()).id);
 		startActivity(intent);
+	}
+
+	@OnClick(R.id.logoutButton)
+	public void logoutButtonClick(View view) {
+		new android.app.AlertDialog.Builder(this)
+				.setMessage("Do you want to logout ?")
+				.setPositiveButton("yes", new DialogInterface.OnClickListener() {
+					public void onClick(DialogInterface dialog, int id) {
+						sessionManager.clearSession();
+						startActivity(ConnectionActivity.prepare(ProfileActivity.this));
+					}
+				})
+				.setNegativeButton("cancel", null)
+				.create().show();
 	}
 }

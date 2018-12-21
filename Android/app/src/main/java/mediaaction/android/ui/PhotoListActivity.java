@@ -46,7 +46,7 @@ public class PhotoListActivity extends AppCompatActivity {
 	ListView imageListView;
 
 	private UserManager userManager = new UserManager();
-	private GalleryManager galleryManager = new GalleryManager();
+	private GalleryManager galleryManager = new GalleryManager(this);
 	private List<Bitmap> finalImageList = new ArrayList<Bitmap>();
 
 	@SuppressLint("CheckResult")

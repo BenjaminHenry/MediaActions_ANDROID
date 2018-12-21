@@ -1,13 +1,11 @@
 package mediaaction.android.ui;
 
 import android.annotation.SuppressLint;
-import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Bundle;
-import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Base64;
 import android.util.Log;
@@ -15,12 +13,15 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import com.vansuita.pickimage.bean.PickResult;
+import com.vansuita.pickimage.bundle.PickSetup;
+import com.vansuita.pickimage.dialog.PickImageDialog;
+import com.vansuita.pickimage.listeners.IPickResult;
 
 import java.io.ByteArrayOutputStream;
 import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -30,7 +31,7 @@ import mediaaction.android.R;
 import mediaaction.android.logic.Gallery.GalleryManager;
 import mediaaction.android.logic.RxUtils;
 
-public class UploadActivity extends AppCompatActivity {
+public class UploadActivity extends AppCompatActivity implements IPickResult {
 
 	public static final String EXTRA_USER_ID = "ProfileActivity.EXTRA_USER_ID";
 
@@ -48,9 +49,8 @@ public class UploadActivity extends AppCompatActivity {
 	TextView alertext;
 
 	public Uri selectedImage;
-	public static final int GET_FROM_GALLERY = 1001;
-	public List<String> tagslist = new ArrayList<>();
-	private GalleryManager galleryManager = new GalleryManager();
+	public static final int CHOOSE_IMAGE = 1001;
+	private GalleryManager galleryManager = new GalleryManager(this);
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -60,7 +60,7 @@ public class UploadActivity extends AppCompatActivity {
 	}
 
 	public void uploadAction(View view) {
-		startActivityForResult(new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.INTERNAL_CONTENT_URI), GET_FROM_GALLERY);
+		PickImageDialog.build(new PickSetup()).show(this);
 	}
 
 	@SuppressLint("CheckResult")
@@ -81,31 +81,38 @@ public class UploadActivity extends AppCompatActivity {
 		byte[] b = baos.toByteArray();
 		String encImage = Base64.encodeToString(b, Base64.DEFAULT);
 
-		galleryManager.uploadImage(encImage, "image/jpeg", imageTitle.getText().toString(), "description", Integer.parseInt(editprice.getText().toString()), extractUserId(getIntent()))
+		galleryManager.uploadImage(b, "image/jpeg", imageTitle.getText().toString(), "description", Integer.parseInt(editprice.getText().toString()), extractUserId(getIntent()))
 				.observeOn(AndroidSchedulers.mainThread())
 				.subscribeOn(Schedulers.newThread())
 				.compose(RxUtils.displayCommonRestErrorDialogSingle(this))
 				.subscribe(x -> {
+							finish();
 						}
-						//	finish()
 						, error ->
 								Log.e("Error", "")
 				);
 	}
 
 	@Override
-	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-		super.onActivityResult(requestCode, resultCode, data);
-		if (requestCode == GET_FROM_GALLERY && resultCode == Activity.RESULT_OK) {
-			selectedImage = data.getData();
-			Bitmap bitmap;
-			try {
-				bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), selectedImage);
-				image.setImageBitmap(bitmap);
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+	public void onPickResult(PickResult r) {
+		if (r.getError() == null) {
+			//If you want the Uri.
+			//Mandatory to refresh image from Uri.
+			//getImageView().setImageURI(null);
+			selectedImage = r.getUri();
+
+			//Setting the real returned image.
+			//getImageView().setImageURI(r.getUri());
+
+			//If you want the Bitmap.
+			image.setImageBitmap(r.getBitmap());
+
+			//Image path
+			//r.getPath();
+		} else {
+			//Handle possible errors
+			//TODO: do what you have to do with r.getError();
+			Toast.makeText(this, r.getError().getMessage(), Toast.LENGTH_LONG).show();
 		}
 	}
 }

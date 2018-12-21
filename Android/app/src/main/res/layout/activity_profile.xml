@@ -89,5 +89,19 @@
 		android:textColor="@android:color/white"
 		app:layout_constraintTop_toBottomOf="@id/mySoldPhotos" />
 
+	<ImageView
+		android:id="@+id/logoutButton"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:layout_margin="15dp"
+		android:background="@drawable/round_button_primary_color"
+		android:elevation="4dp"
+		android:padding="2dp"
+		android:scaleX="1"
+		android:scaleY="1"
+		android:src="@drawable/ic_logout"
+		app:layout_constraintBottom_toBottomOf="parent"
+		app:layout_constraintRight_toRightOf="parent" />
+
 
 </android.support.constraint.ConstraintLayout>

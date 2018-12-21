@@ -3,6 +3,7 @@ plugins {
 }
 
 apply plugin: 'com.android.application'
+apply plugin: 'kotlin-android'
 
 android {
     compileSdkVersion 28
@@ -50,8 +51,12 @@ dependencies {
     //ButterKnife
     implementation 'com.jakewharton:butterknife:8.8.1'
     annotationProcessor 'com.jakewharton:butterknife-compiler:8.8.1'
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
 
-    // Tag
-    implementation 'co.lujun:androidtagview:1.1.4'
+    // PickImage
+    implementation 'com.github.jrvansuita:PickImage:2.2.4'
 
+}
+repositories {
+    mavenCentral()
 }

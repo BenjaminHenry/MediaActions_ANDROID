@@ -2,6 +2,7 @@ package mediaaction.android.core;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 
 public class SessionManager {
 
@@ -14,10 +15,11 @@ public class SessionManager {
 
 	public SessionManager(Context _context) {
 		context = _context;
-		sharedPreferences = context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);
+		sharedPreferences = PreferenceManager.getDefaultSharedPreferences(_context);
+		sharedPreferences = _context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);
 	}
 
-	public void storeUser(Context context, String username, String password) {
+	public void storeUser(String username, String password) {
 		SharedPreferences.Editor sharedPreferencesEditor = sharedPreferences.edit();
 
 		sharedPreferencesEditor.putString(USER_NAME, username);
@@ -25,11 +27,19 @@ public class SessionManager {
 		sharedPreferencesEditor.apply();
 	}
 
-	String getUserName() {
+	public void clearSession() {
+		sharedPreferences
+				.edit()
+				.remove(USER_NAME)
+				.remove(USER_PWD)
+				.apply();
+	}
+
+	public String getUserName() {
 		return sharedPreferences.getString(USER_NAME, null);
 	}
 
-	String getUserPwd() {
+	public String getUserPwd() {
 		return sharedPreferences.getString(USER_PWD, null);
 	}
 }

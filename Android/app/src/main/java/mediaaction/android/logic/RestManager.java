@@ -2,8 +2,6 @@ package mediaaction.android.logic;
 
 import android.util.Log;
 
-import java.io.File;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -15,6 +13,7 @@ import mediaaction.android.core.ResultDTO;
 import mediaaction.android.core.StatDTO;
 import mediaaction.android.core.UserDTO;
 import okhttp3.OkHttpClient;
+import okhttp3.RequestBody;
 import okhttp3.ResponseBody;
 import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
@@ -52,19 +51,12 @@ public class RestManager {
 
 	public Single<UserDTO> register(String mail, String username, String password) {
 		Log.i("REGISTER", "username : " + username);
-		return restService.register(mail, username, password)
+		return restService.register(mail, username, password, "SELLER")
 				.compose(restHelper.responseTransformer());
 	}
 
-	public Single<ResultDTO> uploadImage(String file, String mimetype, String title, String description, Integer price, String userid) {
-		Map<String, Object> map = new HashMap<String, Object>();
-		map.put("file", file);
-		map.put("mimetype", mimetype);
-		map.put("title", title);
-		map.put("description", description);
-		map.put("price", price);
-		map.put("userid", userid);
-		return restService.uploadImage(map)
+	public Single<ResultDTO> uploadImage(Map<String, RequestBody> body) {
+		return restService.uploadImage(body)
 				.compose(restHelper.responseTransformer());
 	}
 
@@ -74,7 +66,7 @@ public class RestManager {
 	}
 
 	public Single<List<ImageDTO>> getSoldPhotos(String userid) {
-		return restService.getSoldPhotos()
+		return restService.getSoldPhotos(userid)
 				.compose(restHelper.responseTransformer());
 	}
 

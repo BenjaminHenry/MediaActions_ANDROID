@@ -6,6 +6,7 @@ import io.reactivex.Single;
 import mediaaction.android.core.SessionManager;
 import mediaaction.android.core.UserDTO;
 import mediaaction.android.logic.RestManager;
+import mediaaction.android.logic.SessionUtils;
 
 public class AccountManager {
 
@@ -18,12 +19,12 @@ public class AccountManager {
 	}
 
 	public Single<UserDTO> login(String username, String password) {
-		return restManager.login(username, password);
-//				.compose(SessionUtils.saveSession(context, new SessionManager(context), username, password));
+		return restManager.login(username, password)
+				.compose(SessionUtils.saveSession(new SessionManager(context), username, password));
 	}
 
 	public Single<UserDTO> register(String mail, String username, String password) {
-		return restManager.register(mail, username, password);
-		//				.compose(SessionUtils.saveSession(context, new SessionManager(context), username, password));
+		return restManager.register(mail, username, password)
+				.compose(SessionUtils.saveSession(new SessionManager(context), username, password));
 	}
 }
