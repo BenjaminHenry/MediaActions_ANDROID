@@ -3,6 +3,7 @@ package mediaaction.android.logic.User;
 import java.util.List;
 
 import io.reactivex.Single;
+import io.reactivex.annotations.Nullable;
 import mediaaction.android.core.ImageDTO;
 import mediaaction.android.core.StatDTO;
 import mediaaction.android.logic.RestManager;

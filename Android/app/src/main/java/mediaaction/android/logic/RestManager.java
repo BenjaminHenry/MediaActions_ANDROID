@@ -8,7 +8,7 @@ import java.util.Map;
 import io.reactivex.Single;
 import io.reactivex.schedulers.Schedulers;
 import mediaaction.android.core.ImageDTO;
-import mediaaction.android.core.RestService;
+import mediaaction.android.core.Rest.RestService;
 import mediaaction.android.core.ResultDTO;
 import mediaaction.android.core.StatDTO;
 import mediaaction.android.core.UserDTO;

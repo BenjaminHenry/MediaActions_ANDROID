@@ -1,9 +1,13 @@
-package mediaaction.android.core;
+package mediaaction.android.core.Rest;
 
 import java.util.List;
 import java.util.Map;
 
 import io.reactivex.Single;
+import mediaaction.android.core.ImageDTO;
+import mediaaction.android.core.ResultDTO;
+import mediaaction.android.core.StatDTO;
+import mediaaction.android.core.UserDTO;
 import okhttp3.RequestBody;
 import okhttp3.ResponseBody;
 import retrofit2.http.Field;
@@ -39,6 +43,6 @@ public interface RestService {
 	@POST("/gallery/upload")
 	Single<ResultDTO> uploadImage(@PartMap Map<String, RequestBody> body);
 
-	@GET("http://54.37.159.50:8500/{imageid}")
+	@GET("http://54.37.159.50:8568/{imageid}")
 	Single<ResponseBody> getImage(@Path("imageid") String imageid);
 }

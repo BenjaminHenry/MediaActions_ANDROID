@@ -6,6 +6,7 @@ import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.v4.content.res.ResourcesCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Base64;
 import android.util.Log;
@@ -25,6 +26,7 @@ import java.io.FileNotFoundException;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
 import mediaaction.android.R;
@@ -39,7 +41,7 @@ public class UploadActivity extends AppCompatActivity implements IPickResult {
 		return intent.getStringExtra(EXTRA_USER_ID);
 	}
 
-	@BindView(R.id.addTitleText)
+	@BindView(R.id.addTitleEditText)
 	EditText imageTitle;
 	@BindView(R.id.editPrice)
 	EditText editprice;
@@ -57,8 +59,11 @@ public class UploadActivity extends AppCompatActivity implements IPickResult {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_upload);
 		ButterKnife.bind(this);
+		setTitle("Upload a photo");
+		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 	}
 
+	@OnClick(R.id.selectedImage)
 	public void uploadAction(View view) {
 		PickImageDialog.build(new PickSetup()).show(this);
 	}
@@ -106,6 +111,7 @@ public class UploadActivity extends AppCompatActivity implements IPickResult {
 
 			//If you want the Bitmap.
 			image.setImageBitmap(r.getBitmap());
+			image.setBackgroundColor(ResourcesCompat.getColor(getResources(), R.color.whiteDefaut, null));
 
 			//Image path
 			//r.getPath();
@@ -114,5 +120,11 @@ public class UploadActivity extends AppCompatActivity implements IPickResult {
 			//TODO: do what you have to do with r.getError();
 			Toast.makeText(this, r.getError().getMessage(), Toast.LENGTH_LONG).show();
 		}
+	}
+
+	@Override
+	public boolean onSupportNavigateUp() {
+		finish();
+		return true;
 	}
 }

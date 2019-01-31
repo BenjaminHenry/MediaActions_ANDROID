@@ -15,7 +15,7 @@
 	<string name="upload_image_btn">Choose image</string>
 	<string name="uploadAddTag">Add tag</string>
 	<string name="add_tag">Add tag</string>
-	<string name="price_text">price :</string>
+	<string name="price_text">Price :</string>
 	<string name="post_text">Post</string>
 	<string name="emptyFieldError">Please fill all the fields</string>
 
@@ -26,5 +26,7 @@
 	<string name="picture_error_accept_permissions_title">Erreur</string>
 	<string name="picture_error_accept_permissions_description">Vous devez autoriser l\'accès à la mémoire externe pour cette opération</string>
 	<string name="pick_image_intent_text">pick_image_intent_text</string>
+	<string name="error_access_denied">Connexion échouée</string>
+	<string name="error_unknown_error">Erreur inconnue</string>
 	<!-- PICTURE PICKER -->
 </resources>

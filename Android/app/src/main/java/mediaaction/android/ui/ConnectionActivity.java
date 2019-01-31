@@ -42,6 +42,7 @@ public class ConnectionActivity extends AppCompatActivity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_connection);
 		ButterKnife.bind(this);
+		setTitle("Login");
 
 		sessionManager = new SessionManager(this);
 

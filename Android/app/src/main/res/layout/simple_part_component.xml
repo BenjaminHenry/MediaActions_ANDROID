@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge xmlns:android="http://schemas.android.com/apk/res/android"
+	xmlns:app="http://schemas.android.com/apk/res-auto"
+	xmlns:tools="http://schemas.android.com/tools">
+
+	<android.support.constraint.ConstraintLayout
+		android:id="@+id/simplePartLayout"
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:background="@android:color/white">
+
+		<android.support.constraint.ConstraintLayout
+			android:layout_width="match_parent"
+			android:layout_height="match_parent"
+			android:padding="20dp">
+
+			<TextView
+				android:id="@+id/simplePartTitle"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:layout_marginLeft="30dp"
+				android:layout_marginStart="30dp"
+				android:textSize="18sp"
+				android:textColor="#2e2e2e"
+				app:layout_constraintBottom_toBottomOf="parent"
+				app:layout_constraintStart_toStartOf="parent"
+				app:layout_constraintTop_toTopOf="parent"
+				tools:ignore="MissingPrefix"
+				tools:text="infoText" />
+
+			<ImageView
+				android:id="@+id/arrowRight"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:layout_marginEnd="10dp"
+				android:layout_marginRight="10dp"
+				android:src="@drawable/ic_chevron_right_color_primary_32dp"
+				app:layout_constraintBottom_toBottomOf="parent"
+				app:layout_constraintEnd_toEndOf="parent"
+				app:layout_constraintTop_toTopOf="parent"
+				tools:ignore="ContentDescription" />
+
+		</android.support.constraint.ConstraintLayout>
+
+		<View
+			android:layout_width="match_parent"
+			android:layout_height="1dp"
+			android:background="@android:color/black"
+			app:layout_constraintBottom_toBottomOf="parent" />
+
+	</android.support.constraint.ConstraintLayout>
+
+</merge>

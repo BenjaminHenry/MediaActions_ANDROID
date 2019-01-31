@@ -11,6 +11,9 @@ import io.reactivex.MaybeTransformer;
 import io.reactivex.SingleTransformer;
 import io.reactivex.functions.Consumer;
 import io.reactivex.schedulers.Schedulers;
+import mediaaction.android.core.Rest.ErrorCode;
+import mediaaction.android.core.Rest.KnownRestException;
+import mediaaction.android.core.Rest.RestException;
 
 public class RxUtils {
 
@@ -39,11 +42,22 @@ public class RxUtils {
 	@NonNull
 	private static Consumer<Throwable> displayCommonRestErrorDialogConsumer(@NonNull Context context) {
 		return throwable -> {
-			new AlertDialog.Builder(context)
-					.setCancelable(false)
-					.setMessage(throwable.getMessage())
-					.setPositiveButton("ok", null)
-					.create().show();
+			if (throwable instanceof KnownRestException) {
+				ErrorCode errorCode = ((KnownRestException) throwable).getErrorCode();
+
+				AlertDialog.Builder dialog = new AlertDialog.Builder(context)
+						.setCancelable(true)
+						.setMessage(context.getString(errorCode.getStringRes(), ((KnownRestException) throwable).getStatusCode()))
+						.setPositiveButton(android.R.string.ok, null);
+
+				dialog.create().show();
+			} else if (throwable instanceof RestException) {
+				new AlertDialog.Builder(context)
+						.setCancelable(true)
+						.setMessage(throwable.getLocalizedMessage())
+						.setPositiveButton(android.R.string.ok, null)
+						.create().show();
+			}
 		};
 	}
 }

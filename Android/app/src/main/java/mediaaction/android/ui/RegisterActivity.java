@@ -39,6 +39,8 @@ public class RegisterActivity extends AppCompatActivity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_register);
 		ButterKnife.bind(this);
+		setTitle("Register");
+		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 	}
 
 	@OnClick(R.id.registrationButtton)
@@ -88,5 +90,11 @@ public class RegisterActivity extends AppCompatActivity {
 						, error ->
 								Log.e("Error", "")
 				);
+	}
+
+	@Override
+	public boolean onSupportNavigateUp() {
+		finish();
+		return true;
 	}
 }
