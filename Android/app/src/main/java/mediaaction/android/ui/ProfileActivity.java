@@ -84,8 +84,8 @@ public class ProfileActivity extends AppCompatActivity {
 		averagePrice.setText("average price : 0 €");
 
 		userData = extractUserData(getIntent());
-
 		profileName.setText(userData.username);
+
 		userManager.getAvgSellsPrice(userData.id)
 				.observeOn(AndroidSchedulers.mainThread())
 				.subscribeOn(Schedulers.newThread())
@@ -101,6 +101,16 @@ public class ProfileActivity extends AppCompatActivity {
 				.subscribeOn(Schedulers.newThread())
 				.compose(RxUtils.displayCommonRestErrorDialogSingle(this))
 				.subscribe(x ->
+								salesCount.setText(String.valueOf(x.size()))
+						, error ->
+								Log.e("Error", "")
+				);
+
+		userManager.getUserUploads(userData.id)
+				.observeOn(AndroidSchedulers.mainThread())
+				.subscribeOn(Schedulers.newThread())
+				.compose(RxUtils.displayCommonRestErrorDialogSingle(this))
+				.subscribe(x ->
 								uploadedPhotos = new ArrayList<ImageDTO>(x)
 						, error ->
 								Log.e("Error", "")
@@ -110,8 +120,6 @@ public class ProfileActivity extends AppCompatActivity {
 			averagePrice.setText("0 €");
 		else
 			averagePrice.setText(avgPrice + " €");
-
-		salesCount.setText(String.valueOf(uploadedPhotos.size()));
 
 		collectionPagerAdapter = new CollectionPagerAdapter(getSupportFragmentManager());
 		viewPager.setAdapter(collectionPagerAdapter);
