@@ -18,6 +18,10 @@ import retrofit2.http.POST;
 import retrofit2.http.PartMap;
 import retrofit2.http.Path;
 
+/**
+ * Interface for the rest services.
+ * You can add requests following the ones already implemented.
+ */
 public interface RestService {
 
 	// USER
