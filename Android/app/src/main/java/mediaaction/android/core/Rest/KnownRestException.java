@@ -1,5 +1,7 @@
 package mediaaction.android.core.Rest;
 
+import org.junit.Assert*
+
 
 /**
  * KnownRestException implements RestException's constructors that implement IOException's constructor.

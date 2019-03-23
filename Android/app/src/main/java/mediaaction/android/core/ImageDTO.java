@@ -1,5 +1,9 @@
 package mediaaction.android.core;
 
+/**
+ * Data Transfert Object for pictures.
+ * recuperted from http requests.
+ */
 public class ImageDTO {
 	public String id;
 	public String posterid;
