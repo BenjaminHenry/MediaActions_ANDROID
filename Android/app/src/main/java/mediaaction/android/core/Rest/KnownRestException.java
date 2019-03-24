@@ -1,7 +1,9 @@
 package mediaaction.android.core.Rest;
 
-
-
+/**
+ * KnownRestException implements RestException's constructors that implement IOException's constructor.
+ * It also sets two variables each time which are error code and satuts code.
+ */
 public class KnownRestException extends RestException {
 
 	private final ErrorCode errorCode;

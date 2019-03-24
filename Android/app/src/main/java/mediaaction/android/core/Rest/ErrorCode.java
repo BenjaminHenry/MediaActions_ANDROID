@@ -5,6 +5,16 @@ import android.support.annotation.StringRes;
 import mediaaction.android.R;
 import mediaaction.android.core.EnumFromWS;
 
+<<<<<<< HEAD
+=======
+import org.junit.Assert.*;
+
+>>>>>>> 8641d676c84e30c5edefd6ff59913f1fa8bbe668
+/**
+ * ErrorCode enumerates the different errors thrown by the application and the error message.
+ * You can easily add new errors by adding them beneath the already defined errors.
+ * ex: ERROR_EXAMPLE("Example error text", R.String.error_example)
+ */
 public enum ErrorCode implements EnumFromWS {
 	ERROR_ACCESS_DENIED("Not found", R.string.error_access_denied),
 	ERROR_UNKNOWN_ERROR("Unknown error", R.string.error_unknown_error);
@@ -26,3 +36,4 @@ public enum ErrorCode implements EnumFromWS {
 		return stringRes;
 	}
 }
+

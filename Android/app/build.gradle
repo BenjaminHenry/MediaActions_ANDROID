@@ -14,6 +14,9 @@ android {
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        testOptions {
+            unitTests.returnDefaultValues = true
+        }
     }
     buildTypes {
         release {
@@ -55,8 +58,11 @@ dependencies {
 
     // PickImage
     implementation 'com.github.jrvansuita:PickImage:2.2.4'
-
+    implementation 'org.junit.jupiter:junit-jupiter-api:5.2.0'
+    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.2.0'
 }
+
 repositories {
+    jcenter()
     mavenCentral()
 }

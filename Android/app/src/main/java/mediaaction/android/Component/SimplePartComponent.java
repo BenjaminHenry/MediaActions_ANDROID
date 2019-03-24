@@ -9,6 +9,9 @@ import android.widget.TextView;
 
 import mediaaction.android.R;
 
+/**
+ * DEPRECATED
+ */
 public class SimplePartComponent extends ConstraintLayout {
 	public SimplePartComponent(Context context, AttributeSet attrs) {
 		super(context, attrs);
