@@ -9,6 +9,11 @@ import android.widget.TextView;
 
 import mediaaction.android.R;
 
+<<<<<<< HEAD
+=======
+import org.junit.Assert.*;
+
+>>>>>>> 8641d676c84e30c5edefd6ff59913f1fa8bbe668
 /**
  * DEPRECATED
  */

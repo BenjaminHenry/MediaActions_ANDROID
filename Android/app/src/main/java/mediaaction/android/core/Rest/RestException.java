@@ -1,6 +1,7 @@
 package mediaaction.android.core.Rest;
 
 import java.io.IOException;
+import org.junit.Assert.*;
 
 /**
  * RestException implements the different constructors of IOException
@@ -23,4 +24,32 @@ public class RestException extends IOException {
 	public RestException(Throwable throwable) {
 		super(throwable);
 	}
+<<<<<<< HEAD
+=======
+}
+
+/**
+ * Unit test class
+ */
+public final class RestExceptionTest {
+	@Test
+	public void RETest{
+		final String message="Unit test"
+		final Throwable t=null;
+
+		RestException RE=new RestException(message);
+		String result=super.Throwable.getMessage();
+		assertEquals(message,result);
+
+		RestException RE=new RestException(message, t);
+		String result=super.Throwable.getMessage();
+		Throwable res=super.Throwable.getCause();
+		assertEquals(message,result);
+		assertEquals(t, res);
+
+		RestException RE = new RestException(t);
+		String result = super.Throwable.getCause();
+		assertEquals(t, result);
+	}
+>>>>>>> 8641d676c84e30c5edefd6ff59913f1fa8bbe668
 }

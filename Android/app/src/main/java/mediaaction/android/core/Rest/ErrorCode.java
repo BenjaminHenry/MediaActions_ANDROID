@@ -5,6 +5,11 @@ import android.support.annotation.StringRes;
 import mediaaction.android.R;
 import mediaaction.android.core.EnumFromWS;
 
+<<<<<<< HEAD
+=======
+import org.junit.Assert.*;
+
+>>>>>>> 8641d676c84e30c5edefd6ff59913f1fa8bbe668
 /**
  * ErrorCode enumerates the different errors thrown by the application and the error message.
  * You can easily add new errors by adding them beneath the already defined errors.
