@@ -77,8 +77,6 @@ public class ConnectionActivity extends AppCompatActivity {
 					.compose(RxUtils.displayCommonRestErrorDialogSingle(this))
 					.subscribe(userData ->
 									startActivity(ProfileActivity.prepare(this, userData))
-//									startActivity(new Intent(this, ProfileActivity.class)
-//											.putExtra(ProfileActivity.EXTRA_USER_DATA, userData))
 							, error ->
 									Log.e("Error", "")
 					);

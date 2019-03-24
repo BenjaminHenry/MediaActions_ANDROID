@@ -2,6 +2,7 @@ package mediaaction.android.ui;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -13,9 +14,10 @@ import android.view.ViewGroup;
 import android.widget.GridView;
 import android.widget.Toast;
 
+import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
-import io.reactivex.Flowable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
 import mediaaction.android.R;
@@ -88,24 +90,24 @@ public class PhotoListFragment extends Fragment {
 	}
 
 	@SuppressLint("CheckResult")
-	private void setupAdapter(View view, List<ImageDTO> imageList) {
-		if (imageList.get(0).id != null) {
-			Flowable.fromIterable(imageList)
-					.concatMapSingle(img -> galleryManager.getImage(img.filename))
-					.toList()
+	private void setupAdapter(View view, List<ImageDTO> imageList) throws IOException {
+
+		GridView gridview = view.findViewById(R.id.gridview);
+		ArrayList<Bitmap> bitmapList = new ArrayList<Bitmap>();
+
+		for (int i = 0; i < imageList.size(); ++i) {
+			galleryManager.getImage(imageList.get(i).filename)
 					.observeOn(AndroidSchedulers.mainThread())
 					.subscribeOn(Schedulers.newThread())
 					.compose(RxUtils.displayCommonRestErrorDialogSingle(context))
-					.subscribe(bitmapList -> {
-								GridView gridview = view.findViewById(R.id.gridview);
-								gridview.setAdapter(new PhotoListAdapter(context, bitmapList));
-
-								gridview.setOnItemClickListener((parent, v, position, id) -> Toast.makeText(getActivity(), "" + position,
-										Toast.LENGTH_SHORT).show());
-							}
-							, error ->
-									Log.e("Error", "")
-					);
+					.subscribe(bitmap -> {
+						bitmapList.add(bitmap);
+						gridview.setAdapter(new PhotoListAdapter(context, bitmapList));
+						gridview.setOnItemClickListener((parent, v, position, id) ->
+								Toast.makeText(getActivity(), "CLICK ON PHOTO" + position,
+										Toast.LENGTH_SHORT).show()
+						);
+					}, error -> Log.e("Error", ""));
 		}
 	}
 }

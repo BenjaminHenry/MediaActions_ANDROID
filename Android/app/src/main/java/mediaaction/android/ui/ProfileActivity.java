@@ -18,18 +18,15 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
 import mediaaction.android.R;
-import mediaaction.android.core.ImageDTO;
 import mediaaction.android.core.PhotoListType;
 import mediaaction.android.core.SessionManager;
+import mediaaction.android.core.StatDTO;
 import mediaaction.android.core.UserDTO;
 import mediaaction.android.logic.FragmentBuilder;
 import mediaaction.android.logic.RxUtils;
@@ -62,13 +59,12 @@ public class ProfileActivity extends AppCompatActivity {
 	@BindView(R.id.viewPager)
 	ViewPager viewPager;
 
-	private CollectionPagerAdapter collectionPagerAdapter;
-
 	private SessionManager sessionManager;
 	private UserManager userManager = new UserManager();
 	private UserDTO userData;
 	private Float avgPrice;
-	private List<ImageDTO> uploadedPhotos = new ArrayList<ImageDTO>();
+	private Integer soldPhotos = 0;
+	private Integer uploadedPhotos = 0;
 
 	@SuppressLint({"SetTextI18n", "CheckResult"})
 	@Override
@@ -80,49 +76,54 @@ public class ProfileActivity extends AppCompatActivity {
 
 		sessionManager = new SessionManager(this);
 
-		salesCount.setText("sold photos : 0");
-		averagePrice.setText("average price : 0 €");
+		salesCount.setText("0");
+		averagePrice.setText("0 €");
 
 		userData = extractUserData(getIntent());
 		profileName.setText(userData.username);
+
 
 		userManager.getAvgSellsPrice(userData.id)
 				.observeOn(AndroidSchedulers.mainThread())
 				.subscribeOn(Schedulers.newThread())
 				.compose(RxUtils.displayCommonRestErrorDialogSingle(this))
-				.subscribe(x ->
-								avgPrice = Float.parseFloat(x.avg)
+				.subscribe(x -> {
+							setavgPrice(x);
+							userManager.getSoldPhotos(userData.id)
+									.observeOn(AndroidSchedulers.mainThread())
+									.subscribeOn(Schedulers.newThread())
+									.compose(RxUtils.displayCommonRestErrorDialogSingle(this))
+									.subscribe(y -> {
+												soldPhotos = y.size();
+												salesCount.setText(String.valueOf(soldPhotos));
+												userManager.getUserUploads(userData.id)
+														.observeOn(AndroidSchedulers.mainThread())
+														.subscribeOn(Schedulers.newThread())
+														.compose(RxUtils.displayCommonRestErrorDialogSingle(this))
+														.subscribe(z -> {
+																	uploadedPhotos = z.size();
+																	CollectionPagerAdapter collectionPagerAdapter = new CollectionPagerAdapter(getSupportFragmentManager());
+																	viewPager.setAdapter(collectionPagerAdapter);
+																}
+																, error ->
+																		Log.e("Error", "")
+														);
+											}
+											, error ->
+													Log.e("Error", "")
+									);
+						}
 						, error ->
 								Log.e("Error", "")
 				);
+	}
 
-		userManager.getSoldPhotos(userData.id)
-				.observeOn(AndroidSchedulers.mainThread())
-				.subscribeOn(Schedulers.newThread())
-				.compose(RxUtils.displayCommonRestErrorDialogSingle(this))
-				.subscribe(x ->
-								salesCount.setText(String.valueOf(x.size()))
-						, error ->
-								Log.e("Error", "")
-				);
-
-		userManager.getUserUploads(userData.id)
-				.observeOn(AndroidSchedulers.mainThread())
-				.subscribeOn(Schedulers.newThread())
-				.compose(RxUtils.displayCommonRestErrorDialogSingle(this))
-				.subscribe(x ->
-								uploadedPhotos = new ArrayList<ImageDTO>(x)
-						, error ->
-								Log.e("Error", "")
-				);
-
-		if (avgPrice == null)
+	@SuppressLint({"SetTextI18n", "DefaultLocale"})
+	private void setavgPrice(StatDTO stat) {
+		if (stat == null)
 			averagePrice.setText("0 €");
 		else
-			averagePrice.setText(avgPrice + " €");
-
-		collectionPagerAdapter = new CollectionPagerAdapter(getSupportFragmentManager());
-		viewPager.setAdapter(collectionPagerAdapter);
+			averagePrice.setText(String.format("%.2f", Float.parseFloat(stat.avg)) + " €");
 	}
 
 	public void logoutAction() {
@@ -172,11 +173,11 @@ public class ProfileActivity extends AppCompatActivity {
 
 		CollectionPagerAdapter(FragmentManager fm) {
 			super(fm);
-			if (uploadedPhotos.size() == 0)
+			if (uploadedPhotos == 0)
 				fragments[0] = preparePageFragment(PhotoListType.EMPTY, userData.id);
 			else
 				fragments[0] = preparePageFragment(PhotoListType.UPLOADED, userData.id);
-			if (avgPrice == null)
+			if (soldPhotos == 0)
 				fragments[1] = preparePageFragment(PhotoListType.EMPTY, userData.id);
 			else
 				fragments[1] = preparePageFragment(PhotoListType.SOLD, userData.id);
@@ -200,6 +201,12 @@ public class ProfileActivity extends AppCompatActivity {
 		}
 
 		private PhotoListFragment preparePageFragment(PhotoListType type, String userId) {
+			if (type == PhotoListType.EMPTY)
+				Log.i("PREPAREFRAGMENT", "EMPTY");
+			if (type == PhotoListType.SOLD)
+				Log.i("PREPAREFRAGMENT", "SOLD");
+			if (type == PhotoListType.UPLOADED)
+				Log.i("PREPAREFRAGMENT", "UPLOADED");
 			return FragmentBuilder.prepare(new PhotoListFragment())
 					.put(PhotoListFragment.ARG_PHOTO_LIST_TYPE, type)
 					.put(PhotoListFragment.ARG_USER_ID, userId)

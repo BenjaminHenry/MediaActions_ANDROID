@@ -23,6 +23,7 @@ import com.vansuita.pickimage.listeners.IPickResult;
 
 import java.io.ByteArrayOutputStream;
 import java.io.FileNotFoundException;
+import java.util.Objects;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -54,13 +55,14 @@ public class UploadActivity extends AppCompatActivity implements IPickResult {
 	public static final int CHOOSE_IMAGE = 1001;
 	private GalleryManager galleryManager = new GalleryManager(this);
 
+	@SuppressLint("CheckResult")
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_upload);
 		ButterKnife.bind(this);
 		setTitle("Upload a photo");
-		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+		Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
 	}
 
 	@OnClick(R.id.selectedImage)

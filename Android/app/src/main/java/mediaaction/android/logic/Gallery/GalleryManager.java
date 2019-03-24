@@ -36,7 +36,7 @@ public class GalleryManager {
 		return restManager.uploadImage(map);
 	}
 
-	public Single<Bitmap> getImage(String imageid) {
-		return restManager.getImage(imageid).map(it -> BitmapFactory.decodeStream(it.byteStream()));
+	public Single<Bitmap> getImage(String filename) {
+		return restManager.getImage(filename).map(it -> BitmapFactory.decodeStream(it.byteStream()));
 	}
 }
