@@ -66,18 +66,21 @@ public class RestManager {
 	}
 
 	public Single<List<ImageDTO>> getSoldPhotos(String userid) {
+		Log.i("GETSOLDPHOTOS", "userid : " + userid);
 		return restService.getSoldPhotos(userid)
 				.compose(restHelper.responseTransformer());
 	}
 
 	public Single<List<ImageDTO>> getUserUploads(String userid) {
+		Log.i("GETUSERUPLOADS", "userid : " + userid);
 		return restService.getUserUploads(userid)
 				.compose(restHelper.responseTransformer());
 	}
 	//GALLERY
 
-	public Single<ResponseBody> getImage(String imageid) {
-		return restService.getImage(imageid)
+	public Single<ResponseBody> getImage(String filename) {
+		Log.i("GETIMAGE", "filename : " + filename);
+		return restService.getImage(filename)
 				.compose(restHelper.responseTransformer());
 	}
 }

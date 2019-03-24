@@ -39,7 +39,7 @@ public interface RestService {
 	@GET("user/{userid}/uploads")
 	Single<List<ImageDTO>> getUserUploads(@Path("userid") String userid);
 
-	@GET("/user/{userid}/stats/sells")
+	@GET("user/{userid}/stats/sells")
 	Single<List<ImageDTO>> getSoldPhotos(@Path("userid") String userid);
 
 	// GALLERY
@@ -47,6 +47,6 @@ public interface RestService {
 	@POST("/gallery/upload")
 	Single<ResultDTO> uploadImage(@PartMap Map<String, RequestBody> body);
 
-	@GET("http://54.37.159.50:8568/{imageid}")
-	Single<ResponseBody> getImage(@Path("imageid") String imageid);
+	@GET("http://54.37.159.50:8502/originals/{filename}")
+	Single<ResponseBody> getImage(@Path("filename") String filename);
 }

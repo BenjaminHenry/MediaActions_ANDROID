@@ -26,7 +26,6 @@ public class RxUtils {
 				.subscribeOn(Schedulers.computation());
 	}
 
-
 	public static <T> SingleTransformer<T, T> displayCommonRestErrorDialogSingle(@NonNull Context context) {
 		return tObservable -> tObservable.doOnError(displayCommonRestErrorDialogConsumer(context));
 	}
