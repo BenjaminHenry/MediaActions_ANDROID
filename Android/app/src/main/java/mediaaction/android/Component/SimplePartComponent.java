@@ -9,8 +9,6 @@ import android.widget.TextView;
 
 import mediaaction.android.R;
 
-import org.junit.Assert.*;
-
 /**
  * DEPRECATED
  */
