@@ -1,7 +1,9 @@
 package mediaaction.android;
 
 import android.app.Activity;
+import android.app.Instrumentation;
 import android.content.Context;
+import android.content.pm.InstrumentationInfo;
 
 import org.junit.Assert;
 import org.junit.Test;
