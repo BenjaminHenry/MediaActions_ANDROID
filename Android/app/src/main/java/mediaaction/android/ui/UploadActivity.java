@@ -4,7 +4,6 @@ import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.content.res.ResourcesCompat;
 import android.support.v7.app.AppCompatActivity;
@@ -51,8 +50,7 @@ public class UploadActivity extends AppCompatActivity implements IPickResult {
 	@BindView(R.id.alertText)
 	TextView alertext;
 
-	public Uri selectedImage;
-	public static final int CHOOSE_IMAGE = 1001;
+	public String selectedImage;
 	private GalleryManager galleryManager = new GalleryManager(this);
 
 	@SuppressLint("CheckResult")
@@ -84,17 +82,17 @@ public class UploadActivity extends AppCompatActivity implements IPickResult {
 		Bitmap bm = ((BitmapDrawable) image.getDrawable()).getBitmap();
 
 		ByteArrayOutputStream baos = new ByteArrayOutputStream();
+
 		bm.compress(Bitmap.CompressFormat.JPEG, 100, baos);
 		byte[] b = baos.toByteArray();
 		String encImage = Base64.encodeToString(b, Base64.DEFAULT);
 
-		galleryManager.uploadImage(b, "image/jpeg", imageTitle.getText().toString(), "description", Integer.parseInt(editprice.getText().toString()), extractUserId(getIntent()))
+
+		galleryManager.uploadImage(encImage, "image/jpeg", imageTitle.getText().toString(), "description", Integer.parseInt(editprice.getText().toString()), extractUserId(getIntent()))
 				.observeOn(AndroidSchedulers.mainThread())
 				.subscribeOn(Schedulers.newThread())
 				.compose(RxUtils.displayCommonRestErrorDialogSingle(this))
-				.subscribe(x -> {
-							finish();
-						}
+				.subscribe(x -> finish()
 						, error ->
 								Log.e("Error", "")
 				);
@@ -106,7 +104,7 @@ public class UploadActivity extends AppCompatActivity implements IPickResult {
 			//If you want the Uri.
 			//Mandatory to refresh image from Uri.
 			//getImageView().setImageURI(null);
-			selectedImage = r.getUri();
+			//selectedImage = r.getUri();
 
 			//Setting the real returned image.
 			//getImageView().setImageURI(r.getUri());
@@ -116,7 +114,7 @@ public class UploadActivity extends AppCompatActivity implements IPickResult {
 			image.setBackgroundColor(ResourcesCompat.getColor(getResources(), R.color.whiteDefaut, null));
 
 			//Image path
-			//r.getPath();
+			selectedImage = r.getPath();
 		} else {
 			//Handle possible errors
 			//TODO: do what you have to do with r.getError();

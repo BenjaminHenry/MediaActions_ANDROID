@@ -6,6 +6,7 @@
 
 	<color name="colorLightGrey">#efefef</color>
 	<color name="colorMediumGrey">#dcdcdc</color>
+	<color name="colorDarkGrey">#6d5c5c</color>
 	<color name="white60">#99ffffff</color>
 	<color name="whiteDefaut">#FAFAFA</color>
 

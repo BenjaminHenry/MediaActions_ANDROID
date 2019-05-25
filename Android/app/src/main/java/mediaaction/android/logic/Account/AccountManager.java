@@ -4,7 +4,7 @@ import android.content.Context;
 
 import io.reactivex.Single;
 import mediaaction.android.core.SessionManager;
-import mediaaction.android.core.UserDTO;
+import mediaaction.android.logic.User.UserDTO;
 import mediaaction.android.logic.RestManager;
 import mediaaction.android.logic.SessionUtils;
 

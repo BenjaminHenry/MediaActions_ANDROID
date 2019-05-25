@@ -1,4 +1,4 @@
-package mediaaction.android.core;
+package mediaaction.android.logic.User;
 
 import java.io.Serializable;
 

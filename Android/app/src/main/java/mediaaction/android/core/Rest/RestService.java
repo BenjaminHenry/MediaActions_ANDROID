@@ -4,10 +4,11 @@ import java.util.List;
 import java.util.Map;
 
 import io.reactivex.Single;
-import mediaaction.android.core.ImageDTO;
-import mediaaction.android.core.ResultDTO;
-import mediaaction.android.core.StatDTO;
-import mediaaction.android.core.UserDTO;
+import mediaaction.android.logic.Gallery.ImageDTO;
+import mediaaction.android.logic.Request.RequestDTO;
+import mediaaction.android.logic.ResultDTO;
+import mediaaction.android.logic.User.StatDTO;
+import mediaaction.android.logic.User.UserDTO;
 import okhttp3.RequestBody;
 import okhttp3.ResponseBody;
 import retrofit2.http.Field;
@@ -45,4 +46,8 @@ public interface RestService {
 
 	@GET("http://54.37.159.50:8502/originals/{filename}")
 	Single<ResponseBody> getImage(@Path("filename") String filename);
+	// REQUESTS
+	@GET("/requests")
+	Single<List<RequestDTO>> getRequests();
+
 }

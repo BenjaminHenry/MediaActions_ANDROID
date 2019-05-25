@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	xmlns:app="http://schemas.android.com/apk/res-auto"
+	xmlns:tools="http://schemas.android.com/tools"
+	android:layout_width="match_parent"
+	android:layout_height="wrap_content"
+	android:background="?android:attr/selectableItemBackground">
+
+	<TextView
+		android:id="@+id/RequestItemTitle"
+		android:layout_width="0dp"
+		android:layout_height="wrap_content"
+		android:layout_marginEnd="15dp"
+		android:layout_marginStart="15dp"
+		android:layout_marginTop="10dp"
+		android:textColor="@android:color/black"
+		android:textSize="20sp"
+		app:layout_constraintBottom_toTopOf="@id/RequestItemDescription"
+		app:layout_constraintEnd_toStartOf="@id/RequestItemReward"
+		app:layout_constraintStart_toStartOf="parent"
+		app:layout_constraintTop_toTopOf="parent"
+		tools:text="Titre de la requête" />
+
+	<TextView
+		android:id="@+id/RequestItemReward"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:layout_marginEnd="15dp"
+		android:layout_marginStart="15dp"
+		android:textColor="@android:color/black"
+		android:textSize="20sp"
+		app:layout_constraintBottom_toBottomOf="@id/RequestItemTitle"
+		app:layout_constraintEnd_toEndOf="parent"
+		app:layout_constraintStart_toEndOf="@id/RequestItemTitle"
+		app:layout_constraintTop_toTopOf="@id/RequestItemTitle"
+		tools:text="5 €" />
+
+	<TextView
+		android:id="@+id/RequestItemDescription"
+		android:layout_width="0dp"
+		android:layout_height="wrap_content"
+		android:layout_marginTop="5dp"
+		android:ellipsize="end"
+		android:maxLines="1"
+		android:textColor="@color/colorDarkGrey"
+		android:textSize="16sp"
+		app:layout_constraintEnd_toEndOf="parent"
+		app:layout_constraintStart_toStartOf="@id/RequestItemTitle"
+		app:layout_constraintTop_toBottomOf="@id/RequestItemTitle"
+		tools:text="Une photo de l'animal en question, tout le corps devrait être visible" />
+
+	<View
+		android:layout_width="match_parent"
+		android:layout_height="1dp"
+		android:layout_marginLeft="15dp"
+		android:layout_marginStart="15dp"
+		android:layout_marginTop="10dp"
+		android:background="@color/colorPrimary"
+		app:layout_constraintEnd_toEndOf="parent"
+		app:layout_constraintStart_toStartOf="parent"
+		app:layout_constraintTop_toBottomOf="@id/RequestItemDescription" />
+
+
+</android.support.constraint.ConstraintLayout>

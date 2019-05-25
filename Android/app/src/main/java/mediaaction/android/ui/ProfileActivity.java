@@ -26,10 +26,10 @@ import io.reactivex.schedulers.Schedulers;
 import mediaaction.android.R;
 import mediaaction.android.core.PhotoListType;
 import mediaaction.android.core.SessionManager;
-import mediaaction.android.core.StatDTO;
-import mediaaction.android.core.UserDTO;
 import mediaaction.android.logic.FragmentBuilder;
 import mediaaction.android.logic.RxUtils;
+import mediaaction.android.logic.User.StatDTO;
+import mediaaction.android.logic.User.UserDTO;
 import mediaaction.android.logic.User.UserManager;
 import mediaaction.android.utils.IntentUtils;
 
@@ -82,7 +82,6 @@ public class ProfileActivity extends AppCompatActivity {
 		userData = extractUserData(getIntent());
 		profileName.setText(userData.username);
 
-
 		userManager.getAvgSellsPrice(userData.id)
 				.observeOn(AndroidSchedulers.mainThread())
 				.subscribeOn(Schedulers.newThread())
@@ -120,7 +119,7 @@ public class ProfileActivity extends AppCompatActivity {
 
 	@SuppressLint({"SetTextI18n", "DefaultLocale"})
 	private void setavgPrice(StatDTO stat) {
-		if (stat == null)
+		if (stat == null || stat.avg == null)
 			averagePrice.setText("0 €");
 		else
 			averagePrice.setText(String.format("%.2f", Float.parseFloat(stat.avg)) + " €");
@@ -158,6 +157,9 @@ public class ProfileActivity extends AppCompatActivity {
 			public boolean onMenuItemClick(MenuItem item) {
 				if (item.getItemId() == R.id.logout) {
 					logoutAction();
+				}
+				if (item.getItemId() == R.id.requestsWall) {
+					startActivity(RequestWallActivity.prepare(getApplicationContext(), userData.id));
 				}
 				return true;
 			}

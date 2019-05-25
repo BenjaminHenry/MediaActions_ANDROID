@@ -1,4 +1,4 @@
-package mediaaction.android.core;
+package mediaaction.android.logic;
 
 public class ResultDTO {
 	public Integer statusCode;

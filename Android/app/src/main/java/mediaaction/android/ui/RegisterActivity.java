@@ -1,7 +1,7 @@
 package mediaaction.android.ui;
 
 import android.annotation.SuppressLint;
-import android.content.Intent;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -18,6 +18,7 @@ import butterknife.OnClick;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
 import mediaaction.android.R;
+import mediaaction.android.core.SessionManager;
 import mediaaction.android.logic.Account.AccountManager;
 import mediaaction.android.logic.RxUtils;
 
@@ -32,6 +33,7 @@ public class RegisterActivity extends AppCompatActivity {
 	@BindView(R.id.pwdConfInput)
 	EditText pwdConfInput;
 
+	private SessionManager sessionManager = new SessionManager(this);
 	private AccountManager accountManager = new AccountManager(this);
 
 	@Override
@@ -76,7 +78,7 @@ public class RegisterActivity extends AppCompatActivity {
 		}
 
 		if (!pwd.equals(pwdConf)) {
-			Toast.makeText(this, "Password don't correspond", Toast.LENGTH_LONG).show();
+			Toast.makeText(this, "Passwords don't correspond", Toast.LENGTH_LONG).show();
 			return;
 		}
 
@@ -85,8 +87,15 @@ public class RegisterActivity extends AppCompatActivity {
 				.subscribeOn(Schedulers.newThread())
 				.compose(RxUtils.displayCommonRestErrorDialogSingle(this))
 				.subscribe(userData ->
-								startActivity(new Intent(this, ProfileActivity.class)
-										.putExtra(ProfileActivity.EXTRA_USER_DATA, userData))
+								new android.app.AlertDialog.Builder(this)
+										.setMessage("A verification email has been sent to your address")
+										.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+											public void onClick(DialogInterface dialog, int id) {
+												sessionManager.clearSession();
+												startActivity(ConnectionActivity.prepare(RegisterActivity.this));
+											}
+										})
+										.create().show()
 						, error ->
 								Log.e("Error", "")
 				);

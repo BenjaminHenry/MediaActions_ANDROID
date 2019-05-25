@@ -10,7 +10,6 @@ import mediaaction.android.core.EnumUtils;
 import mediaaction.android.core.Rest.ErrorCode;
 import mediaaction.android.core.Rest.KnownRestException;
 import mediaaction.android.core.Rest.RestException;
-import mediaaction.android.core.ResultDTO;
 import okhttp3.ResponseBody;
 import retrofit2.HttpException;
 import retrofit2.Response;

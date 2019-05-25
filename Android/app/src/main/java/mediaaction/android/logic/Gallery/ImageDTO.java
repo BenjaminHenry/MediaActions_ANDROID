@@ -1,4 +1,4 @@
-package mediaaction.android.core;
+package mediaaction.android.logic.Gallery;
 
 public class ImageDTO {
 	public String id;

@@ -21,7 +21,7 @@ import java.util.List;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
 import mediaaction.android.R;
-import mediaaction.android.core.ImageDTO;
+import mediaaction.android.logic.Gallery.ImageDTO;
 import mediaaction.android.core.PhotoListType;
 import mediaaction.android.logic.Gallery.GalleryManager;
 import mediaaction.android.logic.RxUtils;

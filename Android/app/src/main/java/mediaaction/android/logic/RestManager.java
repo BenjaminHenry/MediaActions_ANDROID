@@ -7,11 +7,11 @@ import java.util.Map;
 
 import io.reactivex.Single;
 import io.reactivex.schedulers.Schedulers;
-import mediaaction.android.core.ImageDTO;
 import mediaaction.android.core.Rest.RestService;
-import mediaaction.android.core.ResultDTO;
-import mediaaction.android.core.StatDTO;
-import mediaaction.android.core.UserDTO;
+import mediaaction.android.logic.Gallery.ImageDTO;
+import mediaaction.android.logic.Request.RequestDTO;
+import mediaaction.android.logic.User.StatDTO;
+import mediaaction.android.logic.User.UserDTO;
 import okhttp3.OkHttpClient;
 import okhttp3.RequestBody;
 import okhttp3.ResponseBody;
@@ -83,4 +83,13 @@ public class RestManager {
 		return restService.getImage(filename)
 				.compose(restHelper.responseTransformer());
 	}
+
+	//REQUESTS
+
+	public Single<List<RequestDTO>> getRequests() {
+		Log.i("GETREQUESTS", "");
+		return restService.getRequests()
+				.compose(restHelper.responseTransformer());
+	}
+
 }

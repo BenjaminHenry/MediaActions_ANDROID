@@ -3,8 +3,7 @@ package mediaaction.android.logic.User;
 import java.util.List;
 
 import io.reactivex.Single;
-import mediaaction.android.core.ImageDTO;
-import mediaaction.android.core.StatDTO;
+import mediaaction.android.logic.Gallery.ImageDTO;
 import mediaaction.android.logic.RestManager;
 
 public class UserManager {

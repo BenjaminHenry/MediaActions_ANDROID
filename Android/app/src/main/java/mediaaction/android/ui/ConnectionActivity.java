@@ -62,8 +62,8 @@ public class ConnectionActivity extends AppCompatActivity {
 		}
 
 		if (BuildConfig.DEBUG) {
-			username.setText("test1");
-			userPassword.setText("1aaaaaaa");
+			username.setText("Antoine3");
+			userPassword.setText("1Aaaaaaa");
 		}
 	}
 
