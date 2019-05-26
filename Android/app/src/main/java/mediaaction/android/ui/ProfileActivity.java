@@ -53,8 +53,8 @@ public class ProfileActivity extends AppCompatActivity {
 	TextView salesCount;
 	@BindView(R.id.uploadCount)
 	TextView uploadCount;
-	@BindView(R.id.profileMenu)
-	ImageView profileMenu;
+	@BindView(R.id.settingsButton)
+	ImageView settingsButton;
 
 	@BindView(R.id.viewPager)
 	ViewPager viewPager;
@@ -126,9 +126,9 @@ public class ProfileActivity extends AppCompatActivity {
 		startActivity(UploadActivity.prepare(this, userData.id, UploadType.GALLERY));
 	}
 
-	@OnClick(R.id.profileMenu)
+	@OnClick(R.id.settingsButton)
 	public void showMenu() {
-		PopupMenu popup = new PopupMenu(this, profileMenu);
+		PopupMenu popup = new PopupMenu(this, settingsButton);
 		//Inflating the Popup using xml file
 		popup.getMenuInflater()
 				.inflate(R.menu.profile_menu, popup.getMenu());
@@ -139,8 +139,7 @@ public class ProfileActivity extends AppCompatActivity {
 				if (item.getItemId() == R.id.logout) {
 					logoutAction();
 				}
-				if (item.getItemId() == R.id.requestsWall) {
-					startActivity(RequestWallActivity.prepare(getApplicationContext(), userData.id));
+				if (item.getItemId() == R.id.parameters) {
 				}
 				return true;
 			}
@@ -148,6 +147,12 @@ public class ProfileActivity extends AppCompatActivity {
 
 		popup.show(); //showing popup menu
 	}
+
+	@OnClick(R.id.requestsWallButton)
+	public void requestWallClick() {
+		startActivity(RequestWallActivity.prepare(getApplicationContext(), userData.id));
+	}
+
 
 	public class CollectionPagerAdapter extends FragmentPagerAdapter {
 

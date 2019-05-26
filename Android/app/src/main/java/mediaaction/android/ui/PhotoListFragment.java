@@ -102,19 +102,5 @@ public class PhotoListFragment extends Fragment {
 					gridview.setOnItemClickListener((parent, v, position, id) ->
 							startActivity(PhotoDetail.prepare(getContext(), imageList.get(position))));
 				}, error -> Log.e("Error", ""));
-
-
-//		for (int i = 0; i < imageList.size(); ++i) {
-//			galleryManager.getImage(imageList.get(i).filename)
-//					.observeOn(AndroidSchedulers.mainThread())
-//					.subscribeOn(Schedulers.newThread())
-//					.compose(RxUtils.displayCommonRestErrorDialogSingle(context))
-//					.subscribe(bitmap -> {
-//						bitmapList.add(bitmap);
-//						gridview.setAdapter(new PhotoListAdapter(context, bitmapList));
-//						gridview.setOnItemClickListener((parent, v, position, id) ->
-//								startActivity(PhotoDetail.prepare(getContext(), imageList.get(position), bitmap)));
-//					}, error -> Log.e("Error", ""));
-//		}
 	}
 }
