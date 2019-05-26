@@ -1,6 +1,8 @@
 package mediaaction.android.logic.Gallery;
 
-public class ImageDTO {
+import java.io.Serializable;
+
+public class ImageDTO implements Serializable {
 	public String id;
 	public String posterid;
 	public int price;

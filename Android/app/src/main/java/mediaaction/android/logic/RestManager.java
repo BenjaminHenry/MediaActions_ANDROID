@@ -92,4 +92,14 @@ public class RestManager {
 				.compose(restHelper.responseTransformer());
 	}
 
+	public Single<ImageDTO> uploadImageRequest(Map<String, RequestBody> body) {
+		return restService.uploadImageRequest(body)
+				.compose(restHelper.responseTransformer());
+	}
+
+	public Single<ResultDTO> answerRequest(String requestId, String answerUserId, String imageId) {
+		return restService.answerRequest(requestId, answerUserId, imageId)
+				.compose(restHelper.responseTransformer());
+	}
+
 }

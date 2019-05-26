@@ -23,10 +23,10 @@
 	<!-- PICTURE PICKER -->
 	<string name="picture_pick_from_gallery">Pick from gallery</string>
 	<string name="picture_take_with_camera">Take a photo</string>
-	<string name="picture_error_accept_permissions_title">Erreur</string>
-	<string name="picture_error_accept_permissions_description">Vous devez autoriser l\'accès à la mémoire externe pour cette opération</string>
+	<string name="picture_error_accept_permissions_title">Error</string>
+	<string name="picture_error_accept_permissions_description">You must authorize access to external storage for this operation</string>
 	<string name="pick_image_intent_text">pick_image_intent_text</string>
-	<string name="error_access_denied">Connexion échouée</string>
-	<string name="error_unknown_error">Erreur inconnue</string>
+	<string name="error_access_denied">Connection failed</string>
+	<string name="error_unknown_error">Unknown error</string>
 	<!-- PICTURE PICKER -->
 </resources>

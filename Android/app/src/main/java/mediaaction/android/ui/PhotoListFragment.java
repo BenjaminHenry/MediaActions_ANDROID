@@ -2,7 +2,6 @@ package mediaaction.android.ui;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
-import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -12,18 +11,16 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.GridView;
-import android.widget.Toast;
 
-import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 
+import io.reactivex.Flowable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
 import mediaaction.android.R;
-import mediaaction.android.logic.Gallery.ImageDTO;
-import mediaaction.android.core.PhotoListType;
 import mediaaction.android.logic.Gallery.GalleryManager;
+import mediaaction.android.logic.Gallery.ImageDTO;
+import mediaaction.android.logic.PhotoListType;
 import mediaaction.android.logic.RxUtils;
 import mediaaction.android.logic.User.UserManager;
 
@@ -90,24 +87,34 @@ public class PhotoListFragment extends Fragment {
 	}
 
 	@SuppressLint("CheckResult")
-	private void setupAdapter(View view, List<ImageDTO> imageList) throws IOException {
+	private void setupAdapter(View view, List<ImageDTO> imageList) {
 
 		GridView gridview = view.findViewById(R.id.gridview);
-		ArrayList<Bitmap> bitmapList = new ArrayList<Bitmap>();
 
-		for (int i = 0; i < imageList.size(); ++i) {
-			galleryManager.getImage(imageList.get(i).filename)
-					.observeOn(AndroidSchedulers.mainThread())
-					.subscribeOn(Schedulers.newThread())
-					.compose(RxUtils.displayCommonRestErrorDialogSingle(context))
-					.subscribe(bitmap -> {
-						bitmapList.add(bitmap);
-						gridview.setAdapter(new PhotoListAdapter(context, bitmapList));
-						gridview.setOnItemClickListener((parent, v, position, id) ->
-								Toast.makeText(getActivity(), "CLICK ON PHOTO" + position,
-										Toast.LENGTH_SHORT).show()
-						);
-					}, error -> Log.e("Error", ""));
-		}
+		Flowable.fromIterable(imageList)
+				.concatMapSingle(x -> galleryManager.getImage(x.filename))
+				.toList()
+				.observeOn(AndroidSchedulers.mainThread())
+				.subscribeOn(Schedulers.newThread())
+				.compose(RxUtils.displayCommonRestErrorDialogSingle(getContext()))
+				.subscribe(bitmap -> {
+					gridview.setAdapter(new PhotoListAdapter(context, bitmap));
+					gridview.setOnItemClickListener((parent, v, position, id) ->
+							startActivity(PhotoDetail.prepare(getContext(), imageList.get(position))));
+				}, error -> Log.e("Error", ""));
+
+
+//		for (int i = 0; i < imageList.size(); ++i) {
+//			galleryManager.getImage(imageList.get(i).filename)
+//					.observeOn(AndroidSchedulers.mainThread())
+//					.subscribeOn(Schedulers.newThread())
+//					.compose(RxUtils.displayCommonRestErrorDialogSingle(context))
+//					.subscribe(bitmap -> {
+//						bitmapList.add(bitmap);
+//						gridview.setAdapter(new PhotoListAdapter(context, bitmapList));
+//						gridview.setOnItemClickListener((parent, v, position, id) ->
+//								startActivity(PhotoDetail.prepare(getContext(), imageList.get(position), bitmap)));
+//					}, error -> Log.e("Error", ""));
+//		}
 	}
 }

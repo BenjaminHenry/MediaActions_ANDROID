@@ -24,11 +24,11 @@ import butterknife.OnClick;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
 import mediaaction.android.R;
-import mediaaction.android.core.PhotoListType;
 import mediaaction.android.core.SessionManager;
 import mediaaction.android.logic.FragmentBuilder;
+import mediaaction.android.logic.PhotoListType;
 import mediaaction.android.logic.RxUtils;
-import mediaaction.android.logic.User.StatDTO;
+import mediaaction.android.logic.UploadType;
 import mediaaction.android.logic.User.UserDTO;
 import mediaaction.android.logic.User.UserManager;
 import mediaaction.android.utils.IntentUtils;
@@ -51,8 +51,8 @@ public class ProfileActivity extends AppCompatActivity {
 	TextView profileName;
 	@BindView(R.id.salesCount)
 	TextView salesCount;
-	@BindView(R.id.averagePrice)
-	TextView averagePrice;
+	@BindView(R.id.uploadCount)
+	TextView uploadCount;
 	@BindView(R.id.profileMenu)
 	ImageView profileMenu;
 
@@ -62,7 +62,6 @@ public class ProfileActivity extends AppCompatActivity {
 	private SessionManager sessionManager;
 	private UserManager userManager = new UserManager();
 	private UserDTO userData;
-	private Float avgPrice;
 	private Integer soldPhotos = 0;
 	private Integer uploadedPhotos = 0;
 
@@ -77,36 +76,27 @@ public class ProfileActivity extends AppCompatActivity {
 		sessionManager = new SessionManager(this);
 
 		salesCount.setText("0");
-		averagePrice.setText("0 €");
+		uploadCount.setText("0");
 
 		userData = extractUserData(getIntent());
 		profileName.setText(userData.username);
 
-		userManager.getAvgSellsPrice(userData.id)
+		userManager.getSoldPhotos(userData.id)
 				.observeOn(AndroidSchedulers.mainThread())
 				.subscribeOn(Schedulers.newThread())
 				.compose(RxUtils.displayCommonRestErrorDialogSingle(this))
-				.subscribe(x -> {
-							setavgPrice(x);
-							userManager.getSoldPhotos(userData.id)
+				.subscribe(y -> {
+							soldPhotos = y.size();
+							salesCount.setText(String.valueOf(soldPhotos));
+							userManager.getUserUploads(userData.id)
 									.observeOn(AndroidSchedulers.mainThread())
 									.subscribeOn(Schedulers.newThread())
 									.compose(RxUtils.displayCommonRestErrorDialogSingle(this))
-									.subscribe(y -> {
-												soldPhotos = y.size();
-												salesCount.setText(String.valueOf(soldPhotos));
-												userManager.getUserUploads(userData.id)
-														.observeOn(AndroidSchedulers.mainThread())
-														.subscribeOn(Schedulers.newThread())
-														.compose(RxUtils.displayCommonRestErrorDialogSingle(this))
-														.subscribe(z -> {
-																	uploadedPhotos = z.size();
-																	CollectionPagerAdapter collectionPagerAdapter = new CollectionPagerAdapter(getSupportFragmentManager());
-																	viewPager.setAdapter(collectionPagerAdapter);
-																}
-																, error ->
-																		Log.e("Error", "")
-														);
+									.subscribe(z -> {
+												uploadedPhotos = z.size();
+												uploadCount.setText(String.valueOf(uploadedPhotos));
+												CollectionPagerAdapter collectionPagerAdapter = new CollectionPagerAdapter(getSupportFragmentManager());
+												viewPager.setAdapter(collectionPagerAdapter);
 											}
 											, error ->
 													Log.e("Error", "")
@@ -117,13 +107,6 @@ public class ProfileActivity extends AppCompatActivity {
 				);
 	}
 
-	@SuppressLint({"SetTextI18n", "DefaultLocale"})
-	private void setavgPrice(StatDTO stat) {
-		if (stat == null || stat.avg == null)
-			averagePrice.setText("0 €");
-		else
-			averagePrice.setText(String.format("%.2f", Float.parseFloat(stat.avg)) + " €");
-	}
 
 	public void logoutAction() {
 		new android.app.AlertDialog.Builder(this)
@@ -140,9 +123,7 @@ public class ProfileActivity extends AppCompatActivity {
 
 	@OnClick(R.id.fabUploadPhoto)
 	public void myUploadClick(View view) {
-		Intent intent = new Intent(this, UploadActivity.class);
-		intent.putExtra(UploadActivity.EXTRA_USER_ID, userData.id);
-		startActivity(intent);
+		startActivity(UploadActivity.prepare(this, userData.id, UploadType.GALLERY));
 	}
 
 	@OnClick(R.id.profileMenu)

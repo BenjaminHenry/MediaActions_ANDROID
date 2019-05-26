@@ -22,8 +22,7 @@ public class RequestWallActivity extends AppCompatActivity {
 
 	public static Intent prepare(Context context, String userId) {
 		return new Intent(context, RequestWallActivity.class)
-				.putExtra(EXTRA_USER_ID, userId
-				);
+				.putExtra(EXTRA_USER_ID, userId);
 	}
 
 	private static String extractUserData(Intent intent) {
@@ -49,7 +48,7 @@ public class RequestWallActivity extends AppCompatActivity {
 		recyclerView = findViewById(R.id.recyclerView);
 		recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
-		RequestWallAdapter.OnRequestClickListener listener = request -> startActivity(RequestActivity.prepare(this, request));
+		RequestWallAdapter.OnRequestClickListener listener = request -> startActivity(RequestActivity.prepare(this, request, userId));
 
 		requestManager.getRequests()
 				.observeOn(AndroidSchedulers.mainThread())

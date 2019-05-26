@@ -30,9 +30,10 @@ public class GalleryManager {
 		map.put("description", RequestBody.create(okhttp3.MultipartBody.FORM, description));
 		map.put("price", RequestBody.create(okhttp3.MultipartBody.FORM, price.toString()));
 		map.put("tags", RequestBody.create(okhttp3.MultipartBody.FORM, "tags"));
-		map.put("currency", RequestBody.create(okhttp3.MultipartBody.FORM, "currency"));
+		map.put("currency", RequestBody.create(okhttp3.MultipartBody.FORM, "EUR"));
 		map.put("userid", RequestBody.create(okhttp3.MultipartBody.FORM, userid));
-		map.put("geoloc", RequestBody.create(okhttp3.MultipartBody.FORM, "geoloc"));
+		map.put("geoloc", RequestBody.create(okhttp3.MultipartBody.FORM, "Nantes"));
+		map.put("datatype", RequestBody.create(okhttp3.MultipartBody.FORM, "base64"));
 
 		return restManager.uploadImage(map);
 	}

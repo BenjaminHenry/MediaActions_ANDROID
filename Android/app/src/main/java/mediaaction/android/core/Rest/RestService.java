@@ -46,8 +46,16 @@ public interface RestService {
 
 	@GET("http://54.37.159.50:8502/originals/{filename}")
 	Single<ResponseBody> getImage(@Path("filename") String filename);
+
 	// REQUESTS
 	@GET("/requests")
 	Single<List<RequestDTO>> getRequests();
+
+	@Multipart
+	@POST("/requests/upload")
+	Single<ImageDTO> uploadImageRequest(@PartMap Map<String, RequestBody> body);
+
+	@POST("/requests/{requestid}/answer")
+	Single<ResultDTO> answerRequest(@Path("requestid") String requestId, @Field("answeruserid") String answerUserId, @Field("imageid") String imageId);
 
 }

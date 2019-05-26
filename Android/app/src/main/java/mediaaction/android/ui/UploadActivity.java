@@ -1,6 +1,8 @@
 package mediaaction.android.ui;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
@@ -31,14 +33,27 @@ import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
 import mediaaction.android.R;
 import mediaaction.android.logic.Gallery.GalleryManager;
+import mediaaction.android.logic.Request.RequestManager;
 import mediaaction.android.logic.RxUtils;
+import mediaaction.android.logic.UploadType;
 
 public class UploadActivity extends AppCompatActivity implements IPickResult {
 
 	public static final String EXTRA_USER_ID = "ProfileActivity.EXTRA_USER_ID";
+	public static final String EXTRA_UPLOAD_TYPE = "ProfileActivity.EXTRA_UPLOAD_TYPE";
+
+	public static Intent prepare(Context context, String userId, UploadType uploadType) {
+		return new Intent(context, UploadActivity.class)
+				.putExtra(EXTRA_USER_ID, userId)
+				.putExtra(EXTRA_UPLOAD_TYPE, uploadType);
+	}
 
 	static String extractUserId(Intent intent) {
 		return intent.getStringExtra(EXTRA_USER_ID);
+	}
+
+	static UploadType extractUploadType(Intent intent) {
+		return (UploadType) intent.getSerializableExtra(EXTRA_UPLOAD_TYPE);
 	}
 
 	@BindView(R.id.addTitleEditText)
@@ -52,6 +67,7 @@ public class UploadActivity extends AppCompatActivity implements IPickResult {
 
 	public String selectedImage;
 	private GalleryManager galleryManager = new GalleryManager(this);
+	private RequestManager requestManager = new RequestManager(this);
 
 	@SuppressLint("CheckResult")
 	@Override
@@ -87,15 +103,30 @@ public class UploadActivity extends AppCompatActivity implements IPickResult {
 		byte[] b = baos.toByteArray();
 		String encImage = Base64.encodeToString(b, Base64.DEFAULT);
 
-
-		galleryManager.uploadImage(encImage, "image/jpeg", imageTitle.getText().toString(), "description", Integer.parseInt(editprice.getText().toString()), extractUserId(getIntent()))
-				.observeOn(AndroidSchedulers.mainThread())
-				.subscribeOn(Schedulers.newThread())
-				.compose(RxUtils.displayCommonRestErrorDialogSingle(this))
-				.subscribe(x -> finish()
-						, error ->
-								Log.e("Error", "")
-				);
+		if (extractUploadType(getIntent()) == UploadType.GALLERY) {
+			galleryManager.uploadImage(encImage, "image/jpeg", imageTitle.getText().toString(), "description", Integer.parseInt(editprice.getText().toString()), extractUserId(getIntent()))
+					.observeOn(AndroidSchedulers.mainThread())
+					.subscribeOn(Schedulers.newThread())
+					.compose(RxUtils.displayCommonRestErrorDialogSingle(this))
+					.subscribe(x -> finish()
+							, error ->
+									Log.e("Error", "")
+					);
+		} else {
+			requestManager.uploadImageRequest(encImage, "image/jpeg", imageTitle.getText().toString(), "description", Integer.parseInt(editprice.getText().toString()), extractUserId(getIntent()))
+					.observeOn(AndroidSchedulers.mainThread())
+					.subscribeOn(Schedulers.newThread())
+					.compose(RxUtils.displayCommonRestErrorDialogSingle(this))
+					.subscribe(x -> {
+								Intent resultIntent = new Intent()
+										.putExtra(RequestActivity.RESULT_IMAGE_ID, x.id);
+								setResult(Activity.RESULT_OK, resultIntent);
+								finish();
+							}
+							, error ->
+									Log.e("Error", "")
+					);
+		}
 	}
 
 	@Override
