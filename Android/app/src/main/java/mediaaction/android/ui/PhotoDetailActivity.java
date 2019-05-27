@@ -1,16 +1,19 @@
 package mediaaction.android.ui;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
 import mediaaction.android.R;
@@ -18,12 +21,12 @@ import mediaaction.android.logic.Gallery.GalleryManager;
 import mediaaction.android.logic.Gallery.ImageDTO;
 import mediaaction.android.logic.RxUtils;
 
-public class PhotoDetail extends AppCompatActivity {
+public class PhotoDetailActivity extends AppCompatActivity {
 
-	public static final String EXTRA_IMAGE_DATA = "PhotoDetail.EXTRA_IMAGE_DATA";
+	public static final String EXTRA_IMAGE_DATA = "PhotoDetailActivity.EXTRA_IMAGE_DATA";
 
 	public static Intent prepare(Context context, ImageDTO image) {
-		return new Intent(context, PhotoDetail.class)
+		return new Intent(context, PhotoDetailActivity.class)
 				.putExtra(EXTRA_IMAGE_DATA, image);
 	}
 
@@ -61,5 +64,23 @@ public class PhotoDetail extends AppCompatActivity {
 		photoTitle.setText(imageData.title);
 		photoPrice.setText(String.valueOf(imageData.price) + " €");
 		photoDescription.setText(imageData.description);
+	}
+
+	@OnClick(R.id.deleteImageButton)
+	public void deleteImageClick(View view) {
+		new android.app.AlertDialog.Builder(this)
+				.setMessage("Do you want to delete this picture ?")
+				.setPositiveButton("yes", (dialog, id) -> {
+					galleryManager.deleteImage(imageData.id)
+							.observeOn(AndroidSchedulers.mainThread())
+							.subscribeOn(Schedulers.newThread())
+							.compose(RxUtils.displayCommonRestErrorDialogSingle(this))
+							.subscribe(x -> {
+								setResult(Activity.RESULT_OK);
+								finish();
+							}, error -> Log.e("Error", ""));
+				})
+				.setNegativeButton("no", null)
+				.create().show();
 	}
 }

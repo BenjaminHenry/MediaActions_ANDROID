@@ -7,4 +7,5 @@ public class UserDTO implements Serializable{
 	public String email;
 	public String username;
 	public Integer wallet;
+	public String role;
 }

@@ -92,6 +92,38 @@
 			</android.support.constraint.ConstraintLayout>
 
 
+			<android.support.constraint.ConstraintLayout
+				android:id="@+id/DescriptionLayout"
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:layout_marginTop="20dp"
+				android:orientation="horizontal"
+				android:paddingHorizontal="40dp"
+				app:layout_constraintTop_toBottomOf="@id/priceLayout">
+
+				<TextView
+					android:id="@+id/DescriptionText"
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:text="@string/description_text"
+					android:textColor="@android:color/black"
+					android:textSize="20sp"
+					app:layout_constraintBottom_toBottomOf="parent"
+					app:layout_constraintTop_toTopOf="parent" />
+
+				<EditText
+					android:id="@+id/editDescription"
+					android:layout_width="170dp"
+					android:layout_height="wrap_content"
+					android:ems="10"
+					android:inputType="textMultiLine"
+					app:layout_constraintBottom_toBottomOf="parent"
+					app:layout_constraintStart_toEndOf="@id/DescriptionText"
+					app:layout_constraintTop_toTopOf="parent" />
+
+			</android.support.constraint.ConstraintLayout>
+
+
 			<TextView
 				android:id="@+id/alertText"
 				android:layout_width="wrap_content"
@@ -110,12 +142,11 @@
 				android:layout_marginStart="40dp"
 				android:layout_marginTop="50dp"
 				android:background="@drawable/round_button_primary_color"
-				android:onClick="Post"
 				android:text="@string/post_text"
 				android:textColor="@android:color/white"
 				app:layout_constraintEnd_toEndOf="parent"
 				app:layout_constraintStart_toStartOf="parent"
-				app:layout_constraintTop_toBottomOf="@id/priceLayout" />
+				app:layout_constraintTop_toBottomOf="@id/DescriptionLayout" />
 
 		</android.support.constraint.ConstraintLayout>
 

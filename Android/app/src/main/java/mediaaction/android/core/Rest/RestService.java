@@ -11,6 +11,7 @@ import mediaaction.android.logic.User.StatDTO;
 import mediaaction.android.logic.User.UserDTO;
 import okhttp3.RequestBody;
 import okhttp3.ResponseBody;
+import retrofit2.http.DELETE;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
@@ -46,6 +47,9 @@ public interface RestService {
 
 	@GET("http://54.37.159.50:8502/originals/{filename}")
 	Single<ResponseBody> getImage(@Path("filename") String filename);
+
+	@DELETE("/gallery/image/{imageid}")
+	Single<List<ImageDTO>> deleteImage(@Path("imageid") String imageid);
 
 	// REQUESTS
 	@GET("/requests")

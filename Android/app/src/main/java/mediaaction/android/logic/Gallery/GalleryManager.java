@@ -5,6 +5,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 
 import java.util.HashMap;
+import java.util.List;
 
 import io.reactivex.Single;
 import mediaaction.android.logic.RestManager;
@@ -40,5 +41,9 @@ public class GalleryManager {
 
 	public Single<Bitmap> getImage(String filename) {
 		return restManager.getImage(filename).map(it -> BitmapFactory.decodeStream(it.byteStream()));
+	}
+
+	public Single<List<ImageDTO>> deleteImage(String imageId) {
+		return restManager.deleteImage(imageId);
 	}
 }

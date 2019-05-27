@@ -1,8 +1,8 @@
 package mediaaction.android.ui;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -34,6 +34,9 @@ import mediaaction.android.logic.User.UserManager;
 import mediaaction.android.utils.IntentUtils;
 
 public class ProfileActivity extends AppCompatActivity {
+
+	private static final Integer REQUEST_UPLOAD_IMAGE = 1;
+	public static final Integer REQUEST_IMAGE_DELETE = 2;
 
 	public static final String EXTRA_USER_DATA = "ProfileActivity.EXTRA_USER_DATA";
 
@@ -81,41 +84,16 @@ public class ProfileActivity extends AppCompatActivity {
 		userData = extractUserData(getIntent());
 		profileName.setText(userData.username);
 
-		userManager.getSoldPhotos(userData.id)
-				.observeOn(AndroidSchedulers.mainThread())
-				.subscribeOn(Schedulers.newThread())
-				.compose(RxUtils.displayCommonRestErrorDialogSingle(this))
-				.subscribe(y -> {
-							soldPhotos = y.size();
-							salesCount.setText(String.valueOf(soldPhotos));
-							userManager.getUserUploads(userData.id)
-									.observeOn(AndroidSchedulers.mainThread())
-									.subscribeOn(Schedulers.newThread())
-									.compose(RxUtils.displayCommonRestErrorDialogSingle(this))
-									.subscribe(z -> {
-												uploadedPhotos = z.size();
-												uploadCount.setText(String.valueOf(uploadedPhotos));
-												CollectionPagerAdapter collectionPagerAdapter = new CollectionPagerAdapter(getSupportFragmentManager());
-												viewPager.setAdapter(collectionPagerAdapter);
-											}
-											, error ->
-													Log.e("Error", "")
-									);
-						}
-						, error ->
-								Log.e("Error", "")
-				);
+		updateList(userData.id);
 	}
 
 
 	public void logoutAction() {
 		new android.app.AlertDialog.Builder(this)
 				.setMessage("Do you want to logout ?")
-				.setPositiveButton("yes", new DialogInterface.OnClickListener() {
-					public void onClick(DialogInterface dialog, int id) {
-						sessionManager.clearSession();
-						startActivity(ConnectionActivity.prepare(ProfileActivity.this));
-					}
+				.setPositiveButton("yes", (dialog, id) -> {
+					sessionManager.clearSession();
+					startActivity(ConnectionActivity.prepare(ProfileActivity.this));
 				})
 				.setNegativeButton("cancel", null)
 				.create().show();
@@ -123,7 +101,17 @@ public class ProfileActivity extends AppCompatActivity {
 
 	@OnClick(R.id.fabUploadPhoto)
 	public void myUploadClick(View view) {
-		startActivity(UploadActivity.prepare(this, userData.id, UploadType.GALLERY));
+		startActivityForResult(UploadActivity.prepare(this, userData.id, UploadType.GALLERY), REQUEST_UPLOAD_IMAGE);
+	}
+
+	@Override
+	public void onActivityResult(int requestCode, int resultCode, Intent data) {
+		super.onActivityResult(requestCode, resultCode, data);
+		if (requestCode == REQUEST_UPLOAD_IMAGE || requestCode == REQUEST_IMAGE_DELETE) {
+			if (resultCode == Activity.RESULT_OK) {
+				updateList(userData.id);
+			}
+		}
 	}
 
 	@OnClick(R.id.settingsButton)
@@ -140,6 +128,7 @@ public class ProfileActivity extends AppCompatActivity {
 					logoutAction();
 				}
 				if (item.getItemId() == R.id.parameters) {
+					/*TODO*/
 				}
 				return true;
 			}
@@ -200,5 +189,33 @@ public class ProfileActivity extends AppCompatActivity {
 					.put(PhotoListFragment.ARG_USER_ID, userId)
 					.build();
 		}
+	}
+
+	@SuppressLint("CheckResult")
+	public void updateList(String userId) {
+		userManager.getSoldPhotos(userData.id)
+				.observeOn(AndroidSchedulers.mainThread())
+				.subscribeOn(Schedulers.newThread())
+				.compose(RxUtils.displayCommonRestErrorDialogSingle(this))
+				.subscribe(y -> {
+							soldPhotos = y.size();
+							salesCount.setText(String.valueOf(soldPhotos));
+							userManager.getUserUploads(userData.id)
+									.observeOn(AndroidSchedulers.mainThread())
+									.subscribeOn(Schedulers.newThread())
+									.compose(RxUtils.displayCommonRestErrorDialogSingle(this))
+									.subscribe(z -> {
+												uploadedPhotos = z.size();
+												uploadCount.setText(String.valueOf(uploadedPhotos));
+												CollectionPagerAdapter collectionPagerAdapter = new CollectionPagerAdapter(getSupportFragmentManager());
+												viewPager.setAdapter(collectionPagerAdapter);
+											}
+											, error ->
+													Log.e("Error", "")
+									);
+						}
+						, error ->
+								Log.e("Error", "")
+				);
 	}
 }

@@ -16,6 +16,7 @@
 	<string name="uploadAddTag">Add tag</string>
 	<string name="add_tag">Add tag</string>
 	<string name="price_text">Price :</string>
+	<string name="description_text">Description : </string>
 	<string name="post_text">Post</string>
 	<string name="emptyFieldError">Please fill all the fields</string>
 

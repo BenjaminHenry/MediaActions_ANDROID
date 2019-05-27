@@ -14,7 +14,6 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
-import mediaaction.android.BuildConfig;
 import mediaaction.android.R;
 import mediaaction.android.core.SessionManager;
 import mediaaction.android.logic.Account.AccountManager;
@@ -60,11 +59,6 @@ public class ConnectionActivity extends AppCompatActivity {
 									Log.e("Error", "")
 					);
 		}
-
-		if (BuildConfig.DEBUG) {
-			username.setText("Antoine3");
-			userPassword.setText("1Aaaaaaa");
-		}
 	}
 
 	@OnClick(R.id.loginButton)
@@ -75,8 +69,17 @@ public class ConnectionActivity extends AppCompatActivity {
 					.observeOn(AndroidSchedulers.mainThread())
 					.subscribeOn(Schedulers.newThread())
 					.compose(RxUtils.displayCommonRestErrorDialogSingle(this))
-					.subscribe(userData ->
-									startActivity(ProfileActivity.prepare(this, userData))
+					.subscribe(userData -> {
+								if (userData.role.equals("SELLER"))
+									startActivity(ProfileActivity.prepare(this, userData));
+								else {
+									new android.app.AlertDialog.Builder(this)
+											.setMessage("Application is for seller only, you're trying to connect with a buyer account.")
+											.setNeutralButton("Ok", (dialog, id) -> {
+											})
+											.create().show();
+								}
+							}
 							, error ->
 									Log.e("Error", "")
 					);

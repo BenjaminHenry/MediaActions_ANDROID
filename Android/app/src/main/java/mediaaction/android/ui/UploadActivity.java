@@ -12,6 +12,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Base64;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -23,7 +24,6 @@ import com.vansuita.pickimage.dialog.PickImageDialog;
 import com.vansuita.pickimage.listeners.IPickResult;
 
 import java.io.ByteArrayOutputStream;
-import java.io.FileNotFoundException;
 import java.util.Objects;
 
 import butterknife.BindView;
@@ -59,9 +59,13 @@ public class UploadActivity extends AppCompatActivity implements IPickResult {
 	@BindView(R.id.addTitleEditText)
 	EditText imageTitle;
 	@BindView(R.id.editPrice)
-	EditText editprice;
+	EditText editPrice;
+	@BindView(R.id.editDescription)
+	EditText editDescription;
 	@BindView(R.id.selectedImage)
 	ImageView image;
+	@BindView(R.id.postButton)
+	Button postButton;
 	@BindView(R.id.alertText)
 	TextView alertext;
 
@@ -75,7 +79,7 @@ public class UploadActivity extends AppCompatActivity implements IPickResult {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_upload);
 		ButterKnife.bind(this);
-		setTitle("Upload a photo");
+		setTitle("Upload a picture");
 		Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
 	}
 
@@ -85,15 +89,18 @@ public class UploadActivity extends AppCompatActivity implements IPickResult {
 	}
 
 	@SuppressLint("CheckResult")
-	public void Post(View view) throws FileNotFoundException {
+	@OnClick(R.id.postButton)
+	public void Post(View view) {
 		if (selectedImage == null) {
 			alertext.setText("Image missing");
 			return;
 		}
-		if (editprice.getText().toString().isEmpty()) {
+		if (editPrice.getText().toString().isEmpty()) {
 			alertext.setText("Price missing");
 			return;
 		}
+
+		postButton.setEnabled(false);
 
 		Bitmap bm = ((BitmapDrawable) image.getDrawable()).getBitmap();
 
@@ -104,16 +111,21 @@ public class UploadActivity extends AppCompatActivity implements IPickResult {
 		String encImage = Base64.encodeToString(b, Base64.DEFAULT);
 
 		if (extractUploadType(getIntent()) == UploadType.GALLERY) {
-			galleryManager.uploadImage(encImage, "image/jpeg", imageTitle.getText().toString(), "description", Integer.parseInt(editprice.getText().toString()), extractUserId(getIntent()))
+			galleryManager.uploadImage(encImage, "image/jpeg", imageTitle.getText().toString(), editDescription.getText().toString(), Integer.parseInt(editPrice.getText().toString()), extractUserId(getIntent()))
 					.observeOn(AndroidSchedulers.mainThread())
 					.subscribeOn(Schedulers.newThread())
 					.compose(RxUtils.displayCommonRestErrorDialogSingle(this))
-					.subscribe(x -> finish()
-							, error ->
-									Log.e("Error", "")
+					.subscribe(x -> {
+								setResult(Activity.RESULT_OK);
+								finish();
+							}
+							, error -> {
+								postButton.setEnabled(true);
+								Log.e("Error", "");
+							}
 					);
 		} else {
-			requestManager.uploadImageRequest(encImage, "image/jpeg", imageTitle.getText().toString(), "description", Integer.parseInt(editprice.getText().toString()), extractUserId(getIntent()))
+			requestManager.uploadImageRequest(encImage, "image/jpeg", imageTitle.getText().toString(), editDescription.getText().toString(), Integer.parseInt(editPrice.getText().toString()), extractUserId(getIntent()))
 					.observeOn(AndroidSchedulers.mainThread())
 					.subscribeOn(Schedulers.newThread())
 					.compose(RxUtils.displayCommonRestErrorDialogSingle(this))
@@ -123,8 +135,10 @@ public class UploadActivity extends AppCompatActivity implements IPickResult {
 								setResult(Activity.RESULT_OK, resultIntent);
 								finish();
 							}
-							, error ->
-									Log.e("Error", "")
+							, error -> {
+								postButton.setEnabled(true);
+								Log.e("Error", "");
+							}
 					);
 		}
 	}

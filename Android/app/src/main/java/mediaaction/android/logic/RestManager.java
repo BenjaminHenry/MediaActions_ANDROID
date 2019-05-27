@@ -76,11 +76,18 @@ public class RestManager {
 		return restService.getUserUploads(userid)
 				.compose(restHelper.responseTransformer());
 	}
+
 	//GALLERY
 
 	public Single<ResponseBody> getImage(String filename) {
 		Log.i("GETIMAGE", "filename : " + filename);
 		return restService.getImage(filename)
+				.compose(restHelper.responseTransformer());
+	}
+
+	public Single<List<ImageDTO>> deleteImage(String imageId) {
+		Log.i("DELETE IMAGE", "image id : " + imageId);
+		return restService.deleteImage(imageId)
 				.compose(restHelper.responseTransformer());
 	}
 
