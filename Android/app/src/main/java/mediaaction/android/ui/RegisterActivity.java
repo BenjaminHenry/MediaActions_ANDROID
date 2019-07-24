@@ -33,7 +33,7 @@ public class RegisterActivity extends AppCompatActivity {
 	@BindView(R.id.pwdConfInput)
 	EditText pwdConfInput;
 
-	private SessionManager sessionManager = new SessionManager(this);
+	private SessionManager sessionManager;
 	private AccountManager accountManager = new AccountManager(this);
 
 	@Override
@@ -43,6 +43,8 @@ public class RegisterActivity extends AppCompatActivity {
 		ButterKnife.bind(this);
 		setTitle("Register");
 		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+		sessionManager = new SessionManager(this);
 	}
 
 	@OnClick(R.id.registrationButtton)

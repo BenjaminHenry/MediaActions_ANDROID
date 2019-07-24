@@ -8,8 +8,11 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import java.util.Objects;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -19,23 +22,32 @@ import io.reactivex.schedulers.Schedulers;
 import mediaaction.android.R;
 import mediaaction.android.logic.Gallery.GalleryManager;
 import mediaaction.android.logic.Gallery.ImageDTO;
+import mediaaction.android.logic.PhotoListType;
 import mediaaction.android.logic.RxUtils;
 
 public class PhotoDetailActivity extends AppCompatActivity {
 
 	public static final String EXTRA_IMAGE_DATA = "PhotoDetailActivity.EXTRA_IMAGE_DATA";
+	public static final String EXTRA_IMAGE_TYPE = "PhotoDetailActivity.EXTRA_IMAGE_TYPE";
 
-	public static Intent prepare(Context context, ImageDTO image) {
+	public static Intent prepare(Context context, ImageDTO image, PhotoListType listType) {
 		return new Intent(context, PhotoDetailActivity.class)
-				.putExtra(EXTRA_IMAGE_DATA, image);
+				.putExtra(EXTRA_IMAGE_DATA, image)
+				.putExtra(EXTRA_IMAGE_TYPE, listType);
 	}
 
 	private static ImageDTO extractImageData(Intent intent) {
 		return (ImageDTO) intent.getSerializableExtra(EXTRA_IMAGE_DATA);
 	}
 
+	private static PhotoListType extractImageType(Intent intent) {
+		return (PhotoListType) intent.getSerializableExtra(EXTRA_IMAGE_TYPE);
+	}
+
+
 	private GalleryManager galleryManager = new GalleryManager(this);
 	ImageDTO imageData;
+	PhotoListType imageType;
 
 	@BindView(R.id.selectedPhoto)
 	ImageView selectedPhoto;
@@ -45,6 +57,8 @@ public class PhotoDetailActivity extends AppCompatActivity {
 	TextView photoPrice;
 	@BindView(R.id.photoDescription)
 	TextView photoDescription;
+	@BindView(R.id.deleteImageButton)
+	Button deleteImageButton;
 
 	@SuppressLint({"SetTextI18n", "CheckResult"})
 	@Override
@@ -53,7 +67,14 @@ public class PhotoDetailActivity extends AppCompatActivity {
 		setContentView(R.layout.activity_photo_detail);
 		ButterKnife.bind(this);
 
+		Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
+
 		imageData = extractImageData(getIntent());
+		imageType = extractImageType(getIntent());
+
+		if (imageType == PhotoListType.SOLD) {
+			deleteImageButton.setVisibility(View.INVISIBLE);
+		}
 
 		galleryManager.getImage(imageData.filename)
 				.observeOn(AndroidSchedulers.mainThread())
@@ -82,5 +103,11 @@ public class PhotoDetailActivity extends AppCompatActivity {
 				})
 				.setNegativeButton("no", null)
 				.create().show();
+	}
+
+	@Override
+	public boolean onSupportNavigateUp() {
+		finish();
+		return true;
 	}
 }

@@ -70,7 +70,7 @@ public class PhotoListFragment extends Fragment {
 					.subscribeOn(Schedulers.newThread())
 					.compose(RxUtils.displayCommonRestErrorDialogSingle(context))
 					.subscribe(list ->
-									setupAdapter(view, list)
+									setupAdapter(view, list, listType)
 							, error ->
 									Log.e("Error", "")
 					);
@@ -80,7 +80,7 @@ public class PhotoListFragment extends Fragment {
 					.subscribeOn(Schedulers.newThread())
 					.compose(RxUtils.displayCommonRestErrorDialogSingle(context))
 					.subscribe(list ->
-									setupAdapter(view, list)
+									setupAdapter(view, list, listType)
 							, error ->
 									Log.e("Error", "")
 					);
@@ -94,7 +94,7 @@ public class PhotoListFragment extends Fragment {
 	}
 
 	@SuppressLint("CheckResult")
-	private void setupAdapter(View view, List<ImageDTO> imageList) {
+	private void setupAdapter(View view, List<ImageDTO> imageList, PhotoListType listType) {
 
 		GridView gridview = view.findViewById(R.id.gridview);
 
@@ -107,7 +107,7 @@ public class PhotoListFragment extends Fragment {
 				.subscribe(bitmap -> {
 					gridview.setAdapter(new PhotoListAdapter(context, bitmap));
 					gridview.setOnItemClickListener((parent, v, position, id) ->
-							startActivityForResult(PhotoDetailActivity.prepare(getContext(), imageList.get(position)), ProfileActivity.REQUEST_IMAGE_DELETE));
+							startActivityForResult(PhotoDetailActivity.prepare(getContext(), imageList.get(position), listType), ProfileActivity.REQUEST_IMAGE_DELETE));
 				}, error -> Log.e("Error", ""));
 	}
 }
