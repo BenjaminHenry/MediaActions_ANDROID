@@ -9,13 +9,13 @@
 
 	<ImageView
 		android:id="@+id/mediaActionLogo"
-		android:layout_width="120dp"
-		android:layout_height="120dp"
+		android:layout_width="140dp"
+		android:layout_height="140dp"
 		android:layout_marginTop="20dp"
 		app:layout_constraintLeft_toLeftOf="parent"
 		app:layout_constraintRight_toRightOf="parent"
 		app:layout_constraintTop_toTopOf="parent"
-		app:srcCompat="@drawable/ic_mediaactions_logo"
+		app:srcCompat="@drawable/media_actions"
 		tools:ignore="ContentDescription" />
 
 	<android.support.design.widget.TextInputLayout
