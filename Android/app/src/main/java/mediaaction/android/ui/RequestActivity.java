@@ -8,19 +8,16 @@ import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
-import android.view.View;
 import android.widget.TextView;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import butterknife.OnClick;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
 import mediaaction.android.R;
 import mediaaction.android.logic.Request.RequestDTO;
 import mediaaction.android.logic.Request.RequestManager;
 import mediaaction.android.logic.RxUtils;
-import mediaaction.android.logic.UploadType;
 
 public class RequestActivity extends AppCompatActivity {
 
@@ -72,10 +69,10 @@ public class RequestActivity extends AppCompatActivity {
 		requestReward.setText("Reward : " + requestData.reward.toString() + " €");
 	}
 
-	@OnClick(R.id.AnswerRequestButton)
-	void AnswerRequestClick(View view) {
-		startActivityForResult(UploadActivity.prepare(this, extractUserId(getIntent()), UploadType.REQUEST), REQUEST_UPLOAD_CODE);
-	}
+//	@OnClick(R.id.AnswerRequestButton)
+//	void AnswerRequestClick(View view) {
+//		startActivityForResult(UploadFragment.prepare(UploadType.REQUEST), REQUEST_UPLOAD_CODE);
+//	}
 
 	@SuppressLint("CheckResult")
 	@Override

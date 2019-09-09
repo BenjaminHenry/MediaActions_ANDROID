@@ -90,7 +90,7 @@ public class PhotoListFragment extends Fragment {
 	@Override
 	public void onActivityResult(int requestCode, int resultCode, Intent data) {
 		super.onActivityResult(requestCode, resultCode, data);
-		((ProfileActivity) getActivity()).onActivityResult(requestCode, resultCode, data);
+		((HomeFragment) getParentFragment()).onActivityResult(requestCode, resultCode, data);
 	}
 
 	@SuppressLint("CheckResult")
@@ -107,7 +107,7 @@ public class PhotoListFragment extends Fragment {
 				.subscribe(bitmap -> {
 					gridview.setAdapter(new PhotoListAdapter(context, bitmap));
 					gridview.setOnItemClickListener((parent, v, position, id) ->
-							startActivityForResult(PhotoDetailActivity.prepare(getContext(), imageList.get(position), listType), ProfileActivity.REQUEST_IMAGE_DELETE));
+							startActivityForResult(PhotoDetailActivity.prepare(getContext(), imageList.get(position), listType), HomeFragment.REQUEST_IMAGE_DELETE));
 				}, error -> Log.e("Error", ""));
 	}
 }

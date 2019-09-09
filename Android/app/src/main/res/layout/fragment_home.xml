@@ -5,28 +5,7 @@
 	android:layout_width="match_parent"
 	android:layout_height="match_parent"
 	android:background="@android:color/white"
-	tools:context=".ui.ProfileActivity">
-
-	<ImageView
-		android:id="@+id/requestsWallButton"
-		android:layout_width="wrap_content"
-		android:layout_height="wrap_content"
-		android:layout_margin="10dp"
-		android:padding="10dp"
-		android:src="@drawable/ic_collections_black_24dp"
-		app:layout_constraintStart_toStartOf="parent"
-		app:layout_constraintTop_toTopOf="parent"
-		tools:ignore="ContentDescription" />
-
-	<ImageView
-		android:id="@+id/settingsButton"
-		android:layout_width="wrap_content"
-		android:layout_height="wrap_content"
-		android:layout_margin="10dp"
-		android:padding="10dp"
-		android:src="@drawable/ic_settings_black_24dp"
-		app:layout_constraintEnd_toEndOf="parent"
-		app:layout_constraintTop_toTopOf="parent" />
+	tools:context=".ui.HomeFragment">
 
 	<ImageView
 		android:id="@+id/mediaActionLogo"
@@ -123,17 +102,6 @@
 				app:tabTextColor="@color/white60" />
 
 		</android.support.v4.view.ViewPager>
-
-		<android.support.design.widget.FloatingActionButton
-			android:id="@+id/fabUploadPhoto"
-			android:layout_width="wrap_content"
-			android:layout_height="wrap_content"
-			android:layout_gravity="end|bottom"
-			android:layout_margin="16dp"
-			android:backgroundTint="@color/colorMediumGrey"
-			android:src="@drawable/ic_add_a_photo_white_24dp"
-			app:borderWidth="0dp"
-			tools:ignore="UnusedAttribute" />
 
 	</android.support.design.widget.CoordinatorLayout>
 

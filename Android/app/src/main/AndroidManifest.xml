@@ -26,11 +26,12 @@
 		</activity>
 		<activity android:name=".ui.RegisterActivity" />
 		<activity android:name=".ui.ForgetPasswordActivity" />
+		<activity android:name=".ui.RequestWallActivity" />
+		<activity android:name=".ui.RequestActivity" />
+		<activity android:name=".ui.PhotoDetailActivity" />
 		<activity
-			android:name=".ui.ProfileActivity"
-			android:screenOrientation="userPortrait" />
-		<activity android:name=".ui.UploadActivity" />
-
+			android:name=".ui.HomeActivity"
+			android:label="@string/title_activity_home" />
 		<provider
 			android:name="android.support.v4.content.FileProvider"
 			android:authorities="${applicationId}.com.vansuita.pickimage.provider"
@@ -41,10 +42,6 @@
 				android:name="android.support.FILE_PROVIDER_PATHS"
 				android:resource="@xml/picker_provider_paths" />
 		</provider>
-
-		<activity android:name=".ui.RequestWallActivity" />
-		<activity android:name=".ui.RequestActivity" />
-		<activity android:name=".ui.PhotoDetailActivity"></activity>
 	</application>
 
 </manifest>

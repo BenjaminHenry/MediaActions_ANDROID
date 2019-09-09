@@ -54,7 +54,7 @@ public class ConnectionActivity extends AppCompatActivity {
 					.subscribeOn(Schedulers.newThread())
 					.compose(RxUtils.displayCommonRestErrorDialogSingle(this))
 					.subscribe(userData ->
-									startActivity(ProfileActivity.prepare(this, userData))
+									startActivity(HomeActivity.prepare(this, userData))
 							, error ->
 									Log.e("Error", "")
 					);
@@ -71,7 +71,7 @@ public class ConnectionActivity extends AppCompatActivity {
 					.compose(RxUtils.displayCommonRestErrorDialogSingle(this))
 					.subscribe(userData -> {
 								if (userData.role.equals("SELLER"))
-									startActivity(ProfileActivity.prepare(this, userData));
+									startActivity(HomeActivity.prepare(this, userData));
 								else {
 									new android.app.AlertDialog.Builder(this)
 											.setMessage("Application is for seller only, you're trying to connect with a buyer account.")
