@@ -8,13 +8,17 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 
+import com.vansuita.pickimage.bean.PickResult;
+import com.vansuita.pickimage.listeners.IPickResult;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import mediaaction.android.R;
+import mediaaction.android.logic.UploadType;
 import mediaaction.android.logic.User.UserDTO;
 import mediaaction.android.utils.IntentUtils;
 
-public class HomeActivity extends AppCompatActivity {
+public class HomeActivity extends AppCompatActivity implements IPickResult {
 
 	public static final String EXTRA_USER_DATA = "HomeFragment.EXTRA_USER_DATA";
 
@@ -45,12 +49,20 @@ public class HomeActivity extends AppCompatActivity {
 		bottomNavigation.setSelectedItemId(R.id.action_home);
 		bottomNavigation.setOnNavigationItemSelectedListener(item -> {
 			switch (item.getItemId()) {
-				case R.id.action_home:
+				case R.id.action_home: {
 					changeFragment(HomeFragment.prepare());
-				case R.id.action_take_picture:
-					//changeFragment(UploadFragment.prepare(UploadType.GALLERY));
+					break;
+				}
+				case R.id.action_take_picture: {
+					changeFragment(UploadFragment.prepare(UploadType.GALLERY));
+					break;
+				}
 				case R.id.action_request_wall:
+					changeFragment(RequestWallFragment.prepare(userData.id));
+					break;
 				case R.id.action_parameters:
+					changeFragment(ParametersFragment.prepare());
+					break;
 			}
 			return true;
 		});
@@ -75,4 +87,9 @@ public class HomeActivity extends AppCompatActivity {
 				.commit();
 	}
 
+	@Override
+	public void onPickResult(PickResult pickResult) {
+		UploadFragment uploadFragment = (UploadFragment) getSupportFragmentManager().findFragmentById(R.id.frame_layout);
+		uploadFragment.PickResult(pickResult);
+	}
 }

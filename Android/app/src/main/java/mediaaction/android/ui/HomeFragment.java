@@ -26,7 +26,6 @@ import butterknife.ButterKnife;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
 import mediaaction.android.R;
-import mediaaction.android.core.SessionManager;
 import mediaaction.android.logic.FragmentBuilder;
 import mediaaction.android.logic.PhotoListType;
 import mediaaction.android.logic.RxUtils;
@@ -53,7 +52,6 @@ public class HomeFragment extends RxFragment {
 	@BindView(R.id.viewPager)
 	ViewPager viewPager;
 
-	private SessionManager sessionManager;
 	private UserManager userManager = new UserManager();
 	private UserDTO userData;
 	private Integer soldPhotos = 0;
@@ -69,7 +67,6 @@ public class HomeFragment extends RxFragment {
 	@Override
 	public void onViewCreated(View view, Bundle savedInstanceState) {
 		super.onViewCreated(view, savedInstanceState);
-		sessionManager = new SessionManager(getContext());
 
 		salesCount.setText("0");
 		uploadCount.setText("0");
@@ -80,19 +77,10 @@ public class HomeFragment extends RxFragment {
 		updateList(userData.id);
 	}
 
-
-	public void logoutAction() {
-		Context context = getContext();
-		if (context != null) {
-			new android.app.AlertDialog.Builder(context)
-					.setMessage("Do you want to logout ?")
-					.setPositiveButton("yes", (dialog, id) -> {
-						sessionManager.clearSession();
-						startActivity(ConnectionActivity.prepare(context));
-					})
-					.setNegativeButton("cancel", null)
-					.create().show();
-		}
+	@Override
+	public void onResume() {
+		super.onResume();
+		updateList(userData.id);
 	}
 
 	@Override

@@ -17,6 +17,7 @@ import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
 import retrofit2.http.Multipart;
 import retrofit2.http.POST;
+import retrofit2.http.PUT;
 import retrofit2.http.PartMap;
 import retrofit2.http.Path;
 
@@ -39,6 +40,14 @@ public interface RestService {
 
 	@GET("user/{userid}/stats/sells")
 	Single<List<ImageDTO>> getSoldPhotos(@Path("userid") String userid);
+
+	@POST("user/password/reset")
+	@FormUrlEncoded
+	Single<ResultDTO> generatePasswordToken(@Field("username") String username, @Field("") String email);
+
+	@PUT("user/password/reset")
+	@FormUrlEncoded
+	Single<ResultDTO> resetPassword(@Field("token") String token, @Field("userid") String userid, @Field("newpassword") String password);
 
 	// GALLERY
 	@Multipart

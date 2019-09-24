@@ -5,6 +5,7 @@ import java.util.List;
 import io.reactivex.Single;
 import mediaaction.android.logic.Gallery.ImageDTO;
 import mediaaction.android.logic.RestManager;
+import mediaaction.android.logic.ResultDTO;
 
 public class UserManager {
 
@@ -20,5 +21,13 @@ public class UserManager {
 
 	public Single<List<ImageDTO>> getUserUploads(String userid) {
 		return restManager.getUserUploads(userid);
+	}
+
+	public Single<ResultDTO> generatePasswordToken(String userid, String email) {
+		return restManager.generatePasswordToken(userid, email);
+	}
+
+	public Single<ResultDTO> resetPassword(String token, String userid, String password) {
+		return restManager.resetPassword(token, userid, password);
 	}
 }

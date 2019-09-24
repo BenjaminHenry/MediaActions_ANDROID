@@ -109,4 +109,11 @@ public class RestManager {
 				.compose(restHelper.responseTransformer());
 	}
 
+	public Single<ResultDTO> generatePasswordToken(String username, String email) {
+		return restService.generatePasswordToken(username, email);
+	}
+
+	public Single<ResultDTO> resetPassword(String token, String userid, String password) {
+		return restService.resetPassword(token, userid, password);
+	}
 }

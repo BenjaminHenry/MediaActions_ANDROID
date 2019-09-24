@@ -23,7 +23,6 @@ import com.trello.rxlifecycle2.components.support.RxFragment;
 import com.vansuita.pickimage.bean.PickResult;
 import com.vansuita.pickimage.bundle.PickSetup;
 import com.vansuita.pickimage.dialog.PickImageDialog;
-import com.vansuita.pickimage.listeners.IPickResult;
 
 import java.io.ByteArrayOutputStream;
 import java.util.Objects;
@@ -41,7 +40,7 @@ import mediaaction.android.logic.RxUtils;
 import mediaaction.android.logic.UploadType;
 import mediaaction.android.logic.User.UserDTO;
 
-public class UploadFragment extends RxFragment implements IPickResult {
+public class UploadFragment extends RxFragment {
 
 	public static final String EXTRA_UPLOAD_TYPE = "HomeFragment.EXTRA_UPLOAD_TYPE";
 
@@ -79,7 +78,6 @@ public class UploadFragment extends RxFragment implements IPickResult {
 
 	@Override
 	public void onViewCreated(View view, Bundle savedInstanceState) {
-
 		super.onCreate(savedInstanceState);
 		if (getArguments() != null) {
 			uploadType = (UploadType) getArguments().get(EXTRA_UPLOAD_TYPE);
@@ -146,8 +144,7 @@ public class UploadFragment extends RxFragment implements IPickResult {
 		}
 	}
 
-	@Override
-	public void onPickResult(PickResult r) {
+	public void PickResult(PickResult r) {
 		if (r.getError() == null) {
 			//If you want the Uri.
 			//Mandatory to refresh image from Uri.
@@ -160,7 +157,7 @@ public class UploadFragment extends RxFragment implements IPickResult {
 			//If you want the Bitmap.
 			image.setImageBitmap(r.getBitmap());
 			image.setBackgroundColor(ResourcesCompat.getColor(getResources(), R.color.whiteDefaut, null));
-
+			Log.i("SET IMAGE ", "ASPICNAPSICNSAPIC");
 			//Image path
 			selectedImage = r.getPath();
 		} else {

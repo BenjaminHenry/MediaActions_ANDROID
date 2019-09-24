@@ -90,7 +90,8 @@ public class PhotoListFragment extends Fragment {
 	@Override
 	public void onActivityResult(int requestCode, int resultCode, Intent data) {
 		super.onActivityResult(requestCode, resultCode, data);
-		((HomeFragment) getParentFragment()).onActivityResult(requestCode, resultCode, data);
+		if (getParentFragment() != null)
+			((HomeFragment) getParentFragment()).onActivityResult(requestCode, resultCode, data);
 	}
 
 	@SuppressLint("CheckResult")
