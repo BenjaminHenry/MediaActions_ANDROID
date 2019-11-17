@@ -96,6 +96,7 @@ public class RegisterActivity extends AppCompatActivity {
 												sessionManager.clearSession();
 												startActivity(ConnectionActivity.prepare(RegisterActivity.this));
 											}
+
 										})
 										.create().show()
 						, error ->

@@ -43,7 +43,7 @@ public interface RestService {
 
 	@POST("user/password/reset")
 	@FormUrlEncoded
-	Single<ResultDTO> generatePasswordToken(@Field("username") String username, @Field("") String email);
+	Single<ResultDTO> generatePasswordToken(@Field("username") String username, @Field("email") String email);
 
 	@PUT("user/password/reset")
 	@FormUrlEncoded
@@ -69,6 +69,6 @@ public interface RestService {
 	Single<ImageDTO> uploadImageRequest(@PartMap Map<String, RequestBody> body);
 
 	@POST("/requests/{requestid}/answer")
+	@FormUrlEncoded
 	Single<ResultDTO> answerRequest(@Path("requestid") String requestId, @Field("answeruserid") String answerUserId, @Field("imageid") String imageId);
-
 }

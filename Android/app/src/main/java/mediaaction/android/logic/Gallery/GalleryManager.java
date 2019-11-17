@@ -22,7 +22,7 @@ public class GalleryManager {
 		context = _context;
 	}
 
-	public Single<ResultDTO> uploadImage(String image, String mimetype, String title, String description, Integer price, String userid) {
+	public Single<ResultDTO> uploadImage(String image, String mimetype, String title, String description, Integer price, String location, String userid) {
 
 		HashMap<String, RequestBody> map = new HashMap<>();
 		map.put("file", RequestBody.create(MediaType.parse(mimetype), image));
@@ -33,7 +33,7 @@ public class GalleryManager {
 		map.put("tags", RequestBody.create(okhttp3.MultipartBody.FORM, "tags"));
 		map.put("currency", RequestBody.create(okhttp3.MultipartBody.FORM, "EUR"));
 		map.put("userid", RequestBody.create(okhttp3.MultipartBody.FORM, userid));
-		map.put("geoloc", RequestBody.create(okhttp3.MultipartBody.FORM, "Nantes"));
+		map.put("geoloc", RequestBody.create(okhttp3.MultipartBody.FORM, location));
 		map.put("datatype", RequestBody.create(okhttp3.MultipartBody.FORM, "base64"));
 
 		return restManager.uploadImage(map);

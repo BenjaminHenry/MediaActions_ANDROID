@@ -72,15 +72,18 @@ public class HomeFragment extends RxFragment {
 		uploadCount.setText("0");
 
 		userData = ((HomeActivity) Objects.requireNonNull(getActivity())).userData;
-		profileName.setText(userData.username);
-
-		updateList(userData.id);
+		if (userData != null) {
+			profileName.setText(userData.username);
+			updateList(userData.id);
+		}
 	}
 
 	@Override
 	public void onResume() {
 		super.onResume();
-		updateList(userData.id);
+		if (userData != null) {
+			updateList(userData.id);
+		}
 	}
 
 	@Override

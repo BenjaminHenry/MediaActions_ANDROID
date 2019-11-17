@@ -8,10 +8,12 @@ import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.View;
 import android.widget.TextView;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
 import mediaaction.android.R;
@@ -69,10 +71,10 @@ public class RequestActivity extends AppCompatActivity {
 		requestReward.setText("Reward : " + requestData.reward.toString() + " €");
 	}
 
-//	@OnClick(R.id.AnswerRequestButton)
-//	void AnswerRequestClick(View view) {
-//		startActivityForResult(UploadFragment.prepare(UploadType.REQUEST), REQUEST_UPLOAD_CODE);
-//	}
+	@OnClick(R.id.AnswerRequestButton)
+	void AnswerRequestClick(View view) {
+		startActivityForResult(UploadActivity.prepare(this, extractUserId(getIntent())), REQUEST_UPLOAD_CODE);
+	}
 
 	@SuppressLint("CheckResult")
 	@Override
@@ -81,7 +83,6 @@ public class RequestActivity extends AppCompatActivity {
 		if (requestCode == REQUEST_UPLOAD_CODE) {
 			if (resultCode == Activity.RESULT_OK) {
 				String imageId = data.getStringExtra(RESULT_IMAGE_ID);
-
 				requestManager.answerRequest(extractRequestData(getIntent()).id, extractUserId(getIntent()), imageId)
 						.observeOn(AndroidSchedulers.mainThread())
 						.subscribeOn(Schedulers.newThread())

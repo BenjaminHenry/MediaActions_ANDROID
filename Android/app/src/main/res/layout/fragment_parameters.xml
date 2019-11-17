@@ -7,9 +7,24 @@
 	tools:context=".ui.ParametersFragment">
 
 	<mediaaction.android.Component.SimplePartComponent
+		android:id="@+id/NotificationSection"
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		app:layout_constraintTop_toTopOf="parent"
+		app:simplePartTitle="Notification" />
+
+	<mediaaction.android.Component.SimplePartComponent
+		android:id="@+id/ChangePasswordSection"
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		app:layout_constraintTop_toBottomOf="@id/NotificationSection"
+		app:simplePartTitle="Change password" />
+
+	<mediaaction.android.Component.SimplePartComponent
 		android:id="@+id/LogoutSection"
 		android:layout_width="match_parent"
-		android:layout_height="match_parent"
+		android:layout_height="wrap_content"
+		app:layout_constraintTop_toBottomOf="@id/ChangePasswordSection"
 		app:simplePartTitle="Logout" />
 
 </android.support.constraint.ConstraintLayout>

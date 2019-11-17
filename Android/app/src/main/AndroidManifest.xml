@@ -44,7 +44,8 @@
 				android:resource="@xml/picker_provider_paths" />
 		</provider>
 
-		<activity android:name=".ui.ParametersFragment"></activity>
+		<activity android:name=".ui.ParametersFragment" />
+		<activity android:name=".ui.UploadActivity"></activity>
 	</application>
 
 </manifest>

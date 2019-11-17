@@ -14,7 +14,6 @@ import com.vansuita.pickimage.listeners.IPickResult;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import mediaaction.android.R;
-import mediaaction.android.logic.UploadType;
 import mediaaction.android.logic.User.UserDTO;
 import mediaaction.android.utils.IntentUtils;
 
@@ -45,23 +44,28 @@ public class HomeActivity extends AppCompatActivity implements IPickResult {
 		setTitle("Media Actions");
 
 		userData = extractUserData(getIntent());
+		setTitle("Home");
 
 		bottomNavigation.setSelectedItemId(R.id.action_home);
 		bottomNavigation.setOnNavigationItemSelectedListener(item -> {
 			switch (item.getItemId()) {
 				case R.id.action_home: {
 					changeFragment(HomeFragment.prepare());
+					setTitle("Home");
 					break;
 				}
 				case R.id.action_take_picture: {
-					changeFragment(UploadFragment.prepare(UploadType.GALLERY));
+					changeFragment(UploadFragment.prepare());
+					setTitle("Take picture");
 					break;
 				}
 				case R.id.action_request_wall:
 					changeFragment(RequestWallFragment.prepare(userData.id));
+					setTitle("Request wall");
 					break;
 				case R.id.action_parameters:
 					changeFragment(ParametersFragment.prepare());
+					setTitle("Parameters");
 					break;
 			}
 			return true;

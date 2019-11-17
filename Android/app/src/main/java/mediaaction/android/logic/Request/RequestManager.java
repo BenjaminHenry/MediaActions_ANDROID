@@ -25,7 +25,7 @@ public class RequestManager {
 		return restManager.getRequests();
 	}
 
-	public Single<ImageDTO> uploadImageRequest(String image, String mimetype, String title, String description, Integer price, String userid) {
+	public Single<ImageDTO> uploadImageRequest(String image, String mimetype, String title, String description, Integer price, String location, String userid) {
 
 		HashMap<String, RequestBody> map = new HashMap<>();
 		map.put("file", RequestBody.create(MediaType.parse(mimetype), image));
@@ -36,7 +36,7 @@ public class RequestManager {
 		map.put("tags", RequestBody.create(okhttp3.MultipartBody.FORM, "tags"));
 		map.put("currency", RequestBody.create(okhttp3.MultipartBody.FORM, "EUR"));
 		map.put("userid", RequestBody.create(okhttp3.MultipartBody.FORM, userid));
-		map.put("geoloc", RequestBody.create(okhttp3.MultipartBody.FORM, "geoloc"));
+		map.put("geoloc", RequestBody.create(okhttp3.MultipartBody.FORM, location));
 		map.put("datatype", RequestBody.create(okhttp3.MultipartBody.FORM, "base64"));
 
 		return restManager.uploadImageRequest(map);
