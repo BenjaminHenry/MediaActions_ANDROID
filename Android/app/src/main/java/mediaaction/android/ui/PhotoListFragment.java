@@ -8,11 +8,16 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.util.Log;
+import android.view.ActionMode;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.GridView;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import io.reactivex.Flowable;
@@ -36,6 +41,11 @@ public class PhotoListFragment extends Fragment {
 	PhotoListType listType;
 	String userId;
 
+	boolean isMultiSelect = false;
+	ActionMode mActionMode;
+	ActionMode.Callback mActionModeCallback;
+	ArrayList<Long> multiSelectionList = new ArrayList<Long>();
+
 	@Override
 	public void onAttach(Context context) {
 		super.onAttach(context);
@@ -46,6 +56,37 @@ public class PhotoListFragment extends Fragment {
 			userId = (String) getArguments().get(ARG_USER_ID);
 		} else
 			listType = PhotoListType.UPLOADED;
+
+		mActionModeCallback = new ActionMode.Callback() {
+			@Override
+			public boolean onCreateActionMode(ActionMode actionMode, Menu menu) {
+				MenuInflater inflater = actionMode.getMenuInflater();
+				inflater.inflate(R.menu.menu_multi_select, menu);
+				return false;
+			}
+
+			@Override
+			public boolean onPrepareActionMode(ActionMode actionMode, Menu menu) {
+				return false;
+			}
+
+			@Override
+			public boolean onActionItemClicked(ActionMode actionMode, MenuItem menuItem) {
+				switch (menuItem.getItemId()) {
+					case R.id.action_delete: {
+						Log.d("ACTION DELETE", "" + multiSelectionList.size());
+					}
+				}
+				return false;
+			}
+
+			@Override
+			public void onDestroyActionMode(ActionMode actionMode) {
+				isMultiSelect = false;
+				mActionMode = null;
+				multiSelectionList = new ArrayList<Long>();
+			}
+		};
 	}
 
 	@Nullable
@@ -87,6 +128,19 @@ public class PhotoListFragment extends Fragment {
 		}
 	}
 
+	void multiSelect(Long imageId) {
+		if (multiSelectionList.contains(imageId)) {
+			multiSelectionList.remove(imageId);
+		} else {
+			multiSelectionList.add(imageId);
+		}
+		if (multiSelectionList.size() > 1) {
+			mActionMode.setTitle(multiSelectionList.size() + "items");
+		} else {
+			mActionMode.setTitle("1 item");
+		}
+	}
+
 	@Override
 	public void onActivityResult(int requestCode, int resultCode, Intent data) {
 		super.onActivityResult(requestCode, resultCode, data);
@@ -107,8 +161,23 @@ public class PhotoListFragment extends Fragment {
 				.compose(RxUtils.displayCommonRestErrorDialogSingle(getContext()))
 				.subscribe(bitmap -> {
 					gridview.setAdapter(new PhotoListAdapter(context, bitmap));
-					gridview.setOnItemClickListener((parent, v, position, id) ->
-							startActivityForResult(PhotoDetailActivity.prepare(getContext(), imageList.get(position), listType), HomeFragment.REQUEST_IMAGE_DELETE));
+					gridview.setOnItemClickListener((parent, v, position, id) -> {
+						if (isMultiSelect) {
+							multiSelect(id);
+						} else {
+							startActivityForResult(PhotoDetailActivity.prepare(getContext(), imageList.get(position), listType), HomeFragment.REQUEST_IMAGE_DELETE);
+						}
+					});
+					gridview.setOnItemLongClickListener((parent, v, position, id) -> {
+						if (!isMultiSelect) {
+							isMultiSelect = true;
+							if (mActionMode == null) {
+								mActionMode = getActivity().startActionMode(mActionModeCallback);
+							}
+							multiSelect(id);
+						}
+						return true;
+					});
 				}, error -> Log.e("Error", ""));
 	}
 }
